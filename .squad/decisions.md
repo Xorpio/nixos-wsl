@@ -43,6 +43,41 @@
 
 ---
 
+## Phase 1 Implementation — Flake Initialization
+
+### Decision: Flake Output Structure (nixosConfigurations + homeConfigurations)
+**Date:** 2026-06-03 (Tony Stark, Lead)
+**Status:** Approved & Implemented
+**Rationale:** Both `nixosConfigurations.{hostname}` and `homeConfigurations.{user}@{hostname}` coexist. `nixosConfigurations` allows rare system-level changes via `nixos-rebuild`; `homeConfigurations` is the primary day-to-day deployment interface (home-manager first).
+
+### Decision: Inputs Pinning via flake.lock
+**Date:** 2026-06-03 (Tony Stark, Lead)
+**Status:** Approved & Implemented
+**Rationale:** Single lock file ensures consistency across all three machines. Uses `nixpkgs-unstable` with specific dated inputs, pinned by `flake.lock` for reproducibility. Lock file is committed to git as source of truth.
+
+### Decision: sops-nix Secrets Integration at Flake Input Level
+**Date:** 2026-06-03 (Tony Stark, Lead)
+**Status:** Approved & Implemented
+**Rationale:** sops-nix added as flake input and integrated via `homeManagerModules.sops`. Per-machine secrets directories (`secrets/{hostname}/`) with encrypted YAML files and per-machine keys enforce security boundary.
+
+### Decision: Module Composition at Host Level (not Top-Level Flake)
+**Date:** 2026-06-03 (Tony Stark, Lead)
+**Status:** Approved & Implemented
+**Rationale:** Shared modules in `modules/{shell,neovim,git,dev-tools}/` are imported by each host's `home.nix` file, not composed at flake level. Keeps top-level flake clean as input/output coordinator. Enables per-host overrides without affecting others.
+
+### Implementation Completion (Rocket Raccoon)
+**Date:** 2026-06-03
+**Deliverables:**
+- ✅ `flake.nix` created with mkHostConfig helper function
+- ✅ All three machines (daf-laptop, centric-laptop, home-desktop) declared as nixosConfigurations outputs
+- ✅ Minimal WSL system config per machine (wsl.enable, defaultUser, hostName, stateVersion)
+- ✅ home-manager integrated at nixosSystem level with homeConfigurations outputs
+- ✅ `hosts/{hostname}/home.nix` placeholder files created
+- ✅ Full directory structure: `modules/`, `secrets/`, `nvim-config/`
+- ✅ sops-nix module available at homeManagerModules level (Phase 3 activation pending)
+
+---
+
 ## Governance
 
 - All meaningful architectural changes require Tony Stark approval
