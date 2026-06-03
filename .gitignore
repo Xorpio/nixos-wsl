@@ -113,10 +113,12 @@ result-*
 .direnv/
 
 # === Secrets and Credentials ===
-# sops-nix encrypted keys
-.sops.yaml
-.sops*.key
-*.key
+# sops-nix age keys (NEVER commit - local only)
+# .sops.yaml is intentionally NOT ignored - it contains only public keys and should be committed
+secrets/*/.key
+secrets/**/.key
+.age/
+.config/sops/age/keys.txt
 
 # Environment variables
 .env
