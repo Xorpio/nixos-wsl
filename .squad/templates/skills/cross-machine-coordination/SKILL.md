@@ -1,9 +1,9 @@
 # Skill: Cross-Machine Coordination Pattern
 
-**Skill ID:** `cross-machine-coordination`  
-**Owner:** Ralph (Work Monitor)  
-**Squad Integration:** All agents  
-**Status:** Specification (ready for implementation)  
+**Skill ID:** `cross-machine-coordination`
+**Owner:** Ralph (Work Monitor)
+**Squad Integration:** All agents
+**Status:** Specification (ready for implementation)
 
 ---
 

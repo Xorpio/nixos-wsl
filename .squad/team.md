@@ -2,10 +2,10 @@
 
 ## Project Context
 
-**Owner:** Niek de Gooijer  
-**Project:** nixos-wsl  
-**Repo:** D:\nixos-wsl  
-**Goal:** Reproducible multi-machine configuration using Nix flakes, home-manager, and sops-nix for three WSL instances (Daf work laptop, Centric work laptop, home desktop).  
+**Owner:** Niek de Gooijer
+**Project:** nixos-wsl
+**Repo:** D:\nixos-wsl
+**Goal:** Reproducible multi-machine configuration using Nix flakes, home-manager, and sops-nix for three WSL instances (Daf work laptop, Centric work laptop, home desktop).
 **Created:** 2026-06-03
 
 ---
@@ -25,13 +25,13 @@
 
 ## Model Strategy
 
-**Premium (Tony Stark):**  
+**Premium (Tony Stark):**
 Architecture decisions and flake design require careful reasoning about multi-machine setup, Nix patterns, and future expandability. Premium tier ensures high-quality architectural guidance.
 
-**Standard (Rocket, Wanda, Bruce):**  
+**Standard (Rocket, Wanda, Bruce):**
 Code implementation (Nix modules, Lua config, spec validation) and specifications are written artifacts requiring accuracy. Standard tier balances quality and cost.
 
-**Fast/Cheap (Scribe, Ralph):**  
+**Fast/Cheap (Scribe, Ralph):**
 Mechanical operations—logging decisions, session recording, work queue management—don't require premium reasoning. Haiku tier saves costs while maintaining reliability.
 
 ---

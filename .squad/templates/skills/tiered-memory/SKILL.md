@@ -178,12 +178,12 @@ Talking to: {current_interlocutor}
 
 > Load on demand. Do not inline unless specifically needed.
 
-Summarized cross-session history is at:  
+Summarized cross-session history is at:
 `.squad/memory/cold/{agent-name}.md`
 
 Include when:
 - Resuming interrupted work
-- Debugging a recurring issue  
+- Debugging a recurring issue
 - "What have we tried before?"
 
 **To load cold memory, add this section and fetch the file before spawning:**
@@ -218,10 +218,10 @@ Include when:
 ## Escalation
 
 If blocked or uncertain:
-- Architecture questions → @picard  
-- Security concerns → @worf  
-- Infrastructure/deployment → @belanna  
-- Memory/history questions → @scribe  
+- Architecture questions → @picard
+- Security concerns → @worf
+- Infrastructure/deployment → @belanna
+- Memory/history questions → @scribe
 
 ---
 

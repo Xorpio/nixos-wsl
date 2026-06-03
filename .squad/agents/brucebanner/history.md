@@ -2,8 +2,8 @@
 
 ## Context (Day 1)
 
-**Owner:** Niek de Gooijer  
-**Project:** nixos-wsl — Multi-machine reproducible NixOS configuration  
+**Owner:** Niek de Gooijer
+**Project:** nixos-wsl — Multi-machine reproducible NixOS configuration
 **Goal:** Centralize configuration for three WSL instances (Daf work laptop, Centric work laptop, home desktop) using Nix flakes, home-manager, and sops-nix.
 
 **Specifications to Validate:**
