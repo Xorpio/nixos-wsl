@@ -1,0 +1,47 @@
+# EditorConfig is awesome: https://EditorConfig.org
+# EditorConfig helps maintain consistent coding styles for multiple developers
+# working on the same project across various editors and IDEs.
+
+# Top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Makefiles must use tabs for indentation
+[Makefile]
+indent_style = tab
+
+# Shell scripts - 2 space indentation
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# Bash scripts - 2 space indentation
+[*.bash]
+indent_style = space
+indent_size = 2
+
+# YAML and JSON files - 2 space indentation
+[*.{yaml,yml,json}]
+indent_style = space
+indent_size = 2
+
+# Nix files - 2 space indentation
+[*.nix]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# Preserve tabs in certain files if needed
+[*.go]
+indent_style = tab
