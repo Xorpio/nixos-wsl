@@ -2,7 +2,7 @@
   description = "Multi-machine NixOS configuration for WSL and home-desktop";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,7 +64,7 @@
 
       # Define homeConfigurations for standalone home-manager usage
       homeConfigurations = {
-        "user@daf-laptop" = home-manager.lib.homeManagerConfiguration {
+        "daf@daf-laptop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs self; };
           modules = [
@@ -72,7 +72,7 @@
             sops-nix.homeManagerModules.sops
           ];
         };
-        "user@centric-laptop" = home-manager.lib.homeManagerConfiguration {
+        "centric@centric-laptop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs self; };
           modules = [
@@ -80,7 +80,7 @@
             sops-nix.homeManagerModules.sops
           ];
         };
-        "user@home-desktop" = home-manager.lib.homeManagerConfiguration {
+        "nixos@home-desktop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs self; };
           modules = [

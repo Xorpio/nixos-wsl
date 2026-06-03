@@ -15,17 +15,6 @@ with lib;
     aliases = mkOption {
       type = types.attrsOf types.str;
       default = {
-        # ls aliases
-        ls = "ls --color=auto";
-        ll = "ls -lah";
-        la = "ls -la";
-        l = "ls -CF";
-
-        # grep aliases
-        grep = "grep --color=auto";
-        fgrep = "fgrep --color=auto";
-        egrep = "egrep --color=auto";
-
         # common shortcuts
         clear = "clear";
         cls = "clear";

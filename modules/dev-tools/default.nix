@@ -68,7 +68,7 @@ with lib;
 
     aliases = mkOption {
       type = types.attrsOf types.str;
-      default = mkIf config.modules.dev-tools.enableAliases {
+      default = {
         # eza aliases (modern ls replacement)
         ls = "eza";
         la = "eza -la";

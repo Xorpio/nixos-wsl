@@ -10,7 +10,7 @@
   ];
 
   home.username = "nixos";
-  home.homeDirectory = "/root";
+  home.homeDirectory = "/home/nixos";
   home.stateVersion = "24.05";
   home.enableNixpkgsReleaseCheck = false;
 
@@ -25,7 +25,7 @@
     };
 
     neovim = {
-      enable = true;
+      enable = false;
       viAlias = true;
       vimdiffAlias = true;
       colorscheme = "gruvbox";
@@ -48,10 +48,5 @@
     sops = {
       enable = true;
     };
-  };
-
-  # Symlink nvim-config directory to ~/.config/nvim for live editing
-  home.file.".config/nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "/root/nvim-config";
   };
 }
