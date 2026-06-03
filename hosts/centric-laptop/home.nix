@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/shell
-    ../../modules/neovim
     ../../modules/git
     ../../modules/dev-tools
     ../../modules/sops
@@ -24,13 +23,6 @@
       };
     };
 
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimdiffAlias = true;
-      colorscheme = "gruvbox";
-    };
-
     git = {
       enable = true;
       userName = "Centric";
@@ -48,10 +40,5 @@
     sops = {
       enable = true;
     };
-  };
-
-  # Symlink nvim-config directory to ~/.config/nvim for live editing
-  home.file.".config/nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "/root/nvim-config";
   };
 }
