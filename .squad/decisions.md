@@ -78,6 +78,60 @@
 
 ---
 
+---
+
+## Phase 4 & 5 Implementation — Per-Machine Configurations
+
+### Decision: System Configuration Architecture
+**Date:** 2026-06-03 (Rocket Raccoon, Implementer)
+**Status:** Approved & Implemented
+**Rationale:** Created minimal system.nix files for each machine instead of inline config in flake.nix. Separates concerns: flake.nix becomes a composition layer, system.nix files contain actual system configuration. Easier to maintain and understand per-machine configuration. Follows NixOS best practices for modular configuration.
+
+**Implementation:**
+- `hosts/daf-laptop/system.nix` - WSL config for user "daf"
+- `hosts/centric-laptop/system.nix` - WSL config for user "centric"
+- `hosts/home-desktop/system.nix` - WSL config for user "nixos"
+
+Each file includes: system.stateVersion = "24.05", wsl.enable = true with correct defaultUser, networking.hostName, i18n.defaultLocale and time.timeZone, nix.settings.experimental-features for flake support.
+
+### Decision: Home-Manager Module Integration
+**Date:** 2026-06-03 (Rocket Raccoon, Implementer)
+**Status:** Approved & Implemented
+**Rationale:** All five shared modules imported and enabled in each home.nix. Modules are truly shared infrastructure (shell, neovim, git, dev-tools, sops). Enables consistent tooling across all machines. Makes machine-specific overrides clear and explicit. Per-machine customizations via module options.
+
+**Implementation:**
+All home.nix files import: shell, neovim, git, dev-tools, sops. Each machine enables modules with per-machine configuration (git userName/userEmail, defaultShell = "zsh", neovim with gruvbox colorscheme, dev-tools with all sub-features, sops for secrets management).
+
+### Decision: Neovim Configuration Symlink (Task 5.4)
+**Date:** 2026-06-03 (Rocket Raccoon, Implementer)
+**Status:** Approved & Implemented
+**Rationale:** Use mkOutOfStoreSymlink to symlink /root/nvim-config to ~/.config/nvim. Allows direct editing of Lua configuration files without rebuilding flake. Preserves all modules installed via home-manager. nvim-config/ directory contains user Lua files, not flake-managed. Developers can iterate on Lua config without touching Nix. Separation of concerns: Nix manages plugins, Lua manages configuration.
+
+### Decision: No default.nix Files Needed (Tasks 4.4-4.6)
+**Date:** 2026-06-03 (Rocket Raccoon, Implementer)
+**Status:** Approved & Implemented
+**Rationale:** mkHostConfig in flake.nix already handles full system composition. nixosConfigurations.{machine} output is sufficient for `nixos-rebuild switch --flake .#machine`. default.nix was a legacy pattern; flake outputs are the modern standard. Each host has system.nix and home.nix; no intermediate layer needed. Eliminates unnecessary indirection and file duplication.
+
+### Decision: Updated flake.nix Structure
+**Date:** 2026-06-03 (Rocket Raccoon, Implementer)
+**Status:** Approved & Implemented
+**Rationale:** Modified mkHostConfig to import system.nix instead of inline config. Removes duplication between inline config and system.nix files. mkHostConfig becomes a true composition layer. Clearer intent: flake.nix composes, system.nix configures. Easier to add new machines.
+
+### Implementation Completion (Rocket Raccoon)
+**Date:** 2026-06-03
+**Deliverables:**
+- ✅ `hosts/daf-laptop/system.nix` created
+- ✅ `hosts/centric-laptop/system.nix` created
+- ✅ `hosts/home-desktop/system.nix` created
+- ✅ All home.nix files populated with module imports and per-machine configuration
+- ✅ Neovim symlink configured (mkOutOfStoreSymlink to /root/nvim-config)
+- ✅ Per-machine git configuration (userName, userEmail)
+- ✅ All 5 modules enabled in each home.nix with per-machine customizations
+- ✅ flake.nix updated to import system.nix files via mkHostConfig
+- ✅ Tasks 4.1-4.6 and 5.1-5.4 complete (10 total)
+
+---
+
 ## Governance
 
 - All meaningful architectural changes require Tony Stark approval

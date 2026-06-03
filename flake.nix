@@ -32,18 +32,8 @@
           system = hostConfig.system;
           specialArgs = { inherit inputs self; };
           modules = [
-            # Minimal system configuration for WSL
-            {
-              # Basic system settings
-              system.stateVersion = "24.05";
-              
-              # Required for WSL
-              wsl.enable = true;
-              wsl.defaultUser = user;
-
-              # Network configuration
-              networking.hostName = hostname;
-            }
+            # Import per-machine system configuration
+            (./. + "/hosts/${hostname}/system.nix")
 
             # Home manager integration at system level
             home-manager.nixosModules.home-manager
