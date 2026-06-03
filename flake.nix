@@ -22,6 +22,9 @@
         home-desktop = { system = "x86_64-linux"; user = "nixos"; };
       };
 
+      # Create inputs set for passing to modules
+      inputs = { inherit nixpkgs home-manager sops-nix; };
+
       # Helper function to create a host configuration
       mkHostConfig = hostname: hostConfig:
         let
@@ -57,6 +60,34 @@
         daf-laptop = mkHostConfig "daf-laptop" hosts.daf-laptop;
         centric-laptop = mkHostConfig "centric-laptop" hosts.centric-laptop;
         home-desktop = mkHostConfig "home-desktop" hosts.home-desktop;
+      };
+
+      # Define homeConfigurations for standalone home-manager usage
+      homeConfigurations = {
+        "user@daf-laptop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs self; };
+          modules = [
+            ./hosts/daf-laptop/home.nix
+            sops-nix.homeManagerModules.sops
+          ];
+        };
+        "user@centric-laptop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs self; };
+          modules = [
+            ./hosts/centric-laptop/home.nix
+            sops-nix.homeManagerModules.sops
+          ];
+        };
+        "user@home-desktop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs self; };
+          modules = [
+            ./hosts/home-desktop/home.nix
+            sops-nix.homeManagerModules.sops
+          ];
+        };
       };
 
       # Development environment for working on the flake itself

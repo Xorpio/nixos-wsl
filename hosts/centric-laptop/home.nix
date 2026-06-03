@@ -9,7 +9,10 @@
     ../../modules/sops
   ];
 
+  home.username = "centric";
+  home.homeDirectory = "/home/centric";
   home.stateVersion = "24.05";
+  home.enableNixpkgsReleaseCheck = false;
 
   # Enable all modules
   modules = {
@@ -44,7 +47,6 @@
 
     sops = {
       enable = true;
-      enableManagement = true;
     };
   };
 

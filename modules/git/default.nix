@@ -139,8 +139,8 @@ with lib;
       # Aliases (merge defaults + additional)
       aliases = recursiveUpdate config.modules.git.aliases config.modules.git.additionalAliases;
 
-      # Global gitignore
-      ignoreGlobal = ".gitignore_global";
+      # Global gitignore patterns
+      ignores = lib.splitString "\n" config.modules.git.ignoreGlobal;
 
       # Configuration
       extraConfig = recursiveUpdate

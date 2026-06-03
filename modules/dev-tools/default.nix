@@ -125,14 +125,8 @@ with lib;
     };
 
     # Configure ripgrep if it's included
-    programs.ripgrep = mkIf (elem pkgs.ripgrep config.modules.dev-tools.tools) {
-      enable = true;
-      settings = {
-        max-columns = 200;
-        type-list = true;
-        colors = "line:fg:yellow";
-      };
-    };
+    # Note: home-manager ripgrep module only supports enable/disable and package
+    # Configuration is done via RIPGREP_CONFIG_PATH and .ripgreprc file instead
 
     # Set up ripgrep config file for environment variable
     home.file.".ripgreprc" = mkIf (elem pkgs.ripgrep config.modules.dev-tools.tools) {

@@ -84,14 +84,11 @@ with lib;
     # Merge aliases (defaults + additional)
     home.shellAliases = recursiveUpdate config.modules.shell.aliases config.modules.shell.additionalAliases;
 
-    # Merge environment variables
+    # Merge environment variables (merge all three together)
     home.sessionVariables = recursiveUpdate
-      config.modules.shell.environmentVariables
-      config.modules.shell.additionalEnvironmentVariables;
-
-    # Also set session-specific variables
-    home.sessionVariables = recursiveUpdate
-      (home.sessionVariables or { })
+      (recursiveUpdate
+        config.modules.shell.environmentVariables
+        config.modules.shell.additionalEnvironmentVariables)
       config.modules.shell.sessionVariables;
 
     # Configure zsh if it's the default shell
@@ -99,7 +96,6 @@ with lib;
       enable = true;
       defaultKeymap = "emacs";
       enableCompletion = true;
-      enableVteIntegration = true;
       dotDir = ".config/zsh";
 
       # History configuration
@@ -112,29 +108,25 @@ with lib;
         extended = true;
       };
 
-      # Zsh options for better behavior
-      setOptions = [
-        "APPEND_HISTORY"
-        "AUTO_CD"
-        "AUTO_LIST"
-        "AUTO_MENU"
-        "AUTO_PUSHD"
-        "COMPLETE_IN_WORD"
-        "EXTENDED_HISTORY"
-        "HIST_FIND_NO_DUPS"
-        "HIST_IGNORE_ALL_DUPS"
-        "HIST_SAVE_NO_DUPS"
-        "INTERACTIVE_COMMENTS"
-        "PUSHD_IGNORE_DUPS"
-        "PUSHD_SILENT"
-      ];
-
-      # Prompt setup
-      prompt.enable = true;
-      prompt.theme = "walters";
-
-      # Extra initialization
-      initExtra = config.modules.shell.initExtra;
+      # Extra initialization (includes zsh options and prompt)
+      initExtra = ''
+        # Set zsh options for better behavior
+        setopt APPEND_HISTORY
+        setopt AUTO_CD
+        setopt AUTO_LIST
+        setopt AUTO_MENU
+        setopt AUTO_PUSHD
+        setopt COMPLETE_IN_WORD
+        setopt EXTENDED_HISTORY
+        setopt HIST_FIND_NO_DUPS
+        setopt HIST_IGNORE_ALL_DUPS
+        setopt HIST_SAVE_NO_DUPS
+        setopt INTERACTIVE_COMMENTS
+        setopt PUSHD_IGNORE_DUPS
+        setopt PUSHD_SILENT
+        
+        ${config.modules.shell.initExtra}
+      '';
     };
 
     # Configure bash as alternative
