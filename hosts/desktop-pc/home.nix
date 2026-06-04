@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-  home.username = "daf";
-  home.homeDirectory = "/home/daf";
+  home.username = "xorpio";
+  home.homeDirectory = "/home/xorpio";
   home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;

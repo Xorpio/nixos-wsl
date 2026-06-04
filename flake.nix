@@ -40,7 +40,7 @@
         ];
       };
 
-      homeConfigurations."daf@desktop-pc" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."xorpio@desktop-pc" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/desktop-pc/home.nix ];
       };
