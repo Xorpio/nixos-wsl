@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/shell
-    ../../modules/neovim
     ../../modules/git
     ../../modules/dev-tools
     ../../modules/sops
@@ -14,6 +13,18 @@
   home.stateVersion = "24.05";
   home.enableNixpkgsReleaseCheck = false;
 
+  # Task management and editor tools
+  home.packages = with pkgs; [
+    taskwarrior3
+    tasksh
+    taskwarrior-tui
+    neovim
+  ];
+
+  # Vim configuration
+  programs.vim.enable = true;
+  programs.vim.settings.number = true;
+
   # Enable all modules
   modules = {
     shell = {
@@ -22,13 +33,6 @@
       additionalAliases = {
         nix-rebuild = "sudo nixos-rebuild switch --flake /root/.config/nixos";
       };
-    };
-
-    neovim = {
-      enable = false;
-      viAlias = true;
-      vimdiffAlias = true;
-      colorscheme = "gruvbox";
     };
 
     git = {

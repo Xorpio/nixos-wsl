@@ -13,6 +13,18 @@
   home.stateVersion = "24.05";
   home.enableNixpkgsReleaseCheck = false;
 
+  # Task management and editor tools
+  home.packages = with pkgs; [
+    taskwarrior3
+    tasksh
+    taskwarrior-tui
+    neovim
+  ];
+
+  # Vim configuration
+  programs.vim.enable = true;
+  programs.vim.settings.number = true;
+
   # Enable all modules
   modules = {
     shell = {

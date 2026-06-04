@@ -32,7 +32,6 @@
       # Helper function to create a host configuration
       mkHostConfig = hostname: hostConfig:
         let
-          pkgs = nixpkgs.legacyPackages.${hostConfig.system};
           user = hostConfig.user;
         in
         nixpkgs.lib.nixosSystem {
@@ -53,18 +52,6 @@
                   (./. + "/hosts/${hostname}/home.nix")
                   sops-nix.homeManagerModules.sops
                 ];
-
-                # Development tools
-                home.packages = with pkgs; [
-                  taskwarrior3
-                  tasksh
-                  taskwarrior-tui
-                  neovim
-                ];
-
-                # Vim configuration
-                programs.vim.enable = true;
-                programs.vim.settings.number = true;
               };
             }
           ];
