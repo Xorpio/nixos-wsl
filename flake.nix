@@ -15,6 +15,7 @@
 
   outputs = { self, nixpkgs, nixos-wsl, home-manager }:
     {
+      # Full system rebuild: `rebuild`
       nixosConfigurations.daf-laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -22,6 +23,12 @@
           home-manager.nixosModules.home-manager
           ./hosts/daf-laptop
         ];
+      };
+
+      # Home-only rebuild: `hm`
+      homeConfigurations."daf@daf-laptop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./hosts/daf-laptop/home.nix ];
       };
     };
 }
