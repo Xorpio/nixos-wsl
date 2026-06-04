@@ -112,6 +112,12 @@ result-*
 .dirlocal
 .direnv/
 
+# === PACCAR Corporate Certificate ===
+# The PACCAR root CA cert lives inside NixOS at /etc/nixos/paccar-root.crt
+# It must NOT be committed to this repo (corporate-internal, may rotate)
+*.crt
+paccar-root.crt
+
 # === Secrets and Credentials ===
 # sops-nix age keys (NEVER commit - local only)
 # .sops.yaml is intentionally NOT ignored - it contains only public keys and should be committed
