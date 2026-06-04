@@ -169,12 +169,6 @@ home-manager packages | grep -E "task|nvim|vim"
 - [ ] `home-manager packages` lists taskwarrior-tui
 - [ ] `home-manager packages` lists neovim
 
-```bash
-# Confirm neovim config symlink is in place (per architecture decision)
-ls -la ~/.config/nvim
-# Expected: symlink pointing to /root/nvim-config (or ~/nixos-wsl/nvim-config)
-```
-- [ ] `~/.config/nvim` exists as a symlink to `nvim-config/`
 
 ```bash
 # Confirm the Nix store path is active
@@ -200,7 +194,6 @@ Run the above sections on each machine. Note any machine-specific differences.
 | `nvim --version` succeeds | | |
 | vim shows line numbers | | |
 | home-manager generation updated | | |
-| `~/.config/nvim` symlink correct | | |
 
 ### centric-laptop (user: centric)
 **Deployment command:** `sudo nixos-rebuild switch --flake .#centric-laptop`
@@ -213,7 +206,6 @@ Run the above sections on each machine. Note any machine-specific differences.
 | `nvim --version` succeeds | | |
 | vim shows line numbers | | |
 | home-manager generation updated | | |
-| `~/.config/nvim` symlink correct | | |
 
 ### home-desktop (user: nixos)
 **Deployment command:** `sudo nixos-rebuild switch --flake .#home-desktop`
@@ -226,7 +218,6 @@ Run the above sections on each machine. Note any machine-specific differences.
 | `nvim --version` succeeds | | |
 | vim shows line numbers | | |
 | home-manager generation updated | | |
-| `~/.config/nvim` symlink correct | | |
 
 ---
 

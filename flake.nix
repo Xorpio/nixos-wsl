@@ -56,7 +56,7 @@
 
                 # Development tools
                 home.packages = with pkgs; [
-                  taskwarrior
+                  taskwarrior3
                   tasksh
                   taskwarrior-tui
                   neovim
