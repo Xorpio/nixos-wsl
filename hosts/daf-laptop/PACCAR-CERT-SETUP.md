@@ -63,6 +63,10 @@ If you see a parse error, the cert was not exported in Base-64/PEM format — re
 
 ## Step 4: Bootstrap rebuild (chicken-and-egg fix)
 
+> **⚠️ Why `--impure` is required on daf-laptop**
+>
+> `security.pki.certificateFiles` references `/etc/nixos/paccar-root.crt` — an absolute path on the host filesystem. NixOS flakes run in **pure evaluation mode** by default, which forbids access to paths outside the Nix store (including `/etc`). Passing `--impure` lifts this restriction for daf-laptop rebuilds. **All `nixos-rebuild` invocations on this machine must include `--impure`.**
+
 On first run, `nixos-rebuild` itself needs HTTPS to fetch packages, but NixOS doesn't trust the PACCAR CA yet. Use a combined CA bundle for this one-time bootstrap:
 
 ```bash
@@ -71,7 +75,7 @@ cat /etc/ssl/certs/ca-bundle.crt /etc/nixos/paccar-root.crt > /root/combined-ca.
 
 # Run nixos-rebuild using the combined bundle
 cd /etc/nixos
-NIX_SSL_CERT_FILE=/root/combined-ca.crt nixos-rebuild switch --flake .#daf-laptop
+NIX_SSL_CERT_FILE=/root/combined-ca.crt nixos-rebuild switch --impure --flake .#daf-laptop
 ```
 
 > The `combined-ca.crt` file at `/root/combined-ca.crt` is temporary — you can delete it after a successful rebuild.
@@ -133,5 +137,5 @@ If PACCAR rotates their root CA in the future:
 
 1. Export the new cert from `certmgr.msc` (Step 1)
 2. Overwrite `/etc/nixos/paccar-root.crt` with the new file
-3. Run `nixos-rebuild switch --flake .#daf-laptop` (no bootstrap needed — the old cert is still trusted during rebuild)
+3. Run `nixos-rebuild switch --impure --flake .#daf-laptop` (no bootstrap needed — the old cert is still trusted during rebuild)
 4. Re-run verification checks 5.1 and 5.2

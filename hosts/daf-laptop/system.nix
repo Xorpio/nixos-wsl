@@ -37,6 +37,8 @@
   # PACCAR corporate TLS trust — daf-laptop only
   # The cert lives at /etc/nixos/paccar-root.crt inside the NixOS instance.
   # It is NOT in git. Copy it manually before running nixos-rebuild switch.
-  # See openspec/changes/configure-paccar-tls-trust/ for full instructions.
+  # IMPORTANT: Because this references an absolute host path, all rebuilds
+  # on daf-laptop must use: nixos-rebuild switch --impure
+  # See hosts/daf-laptop/PACCAR-CERT-SETUP.md for full instructions.
   security.pki.certificateFiles = [ /etc/nixos/paccar-root.crt ];
 }
