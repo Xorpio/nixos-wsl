@@ -5,10 +5,6 @@
   # State version
   system.stateVersion = "24.05";
 
-  # WSL configuration
-  wsl.enable = true;
-  wsl.defaultUser = "daf";
-
   # Network configuration
   networking.hostName = "daf-laptop";
 
@@ -18,4 +14,23 @@
 
   # Enable nix flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  # Filesystem configuration - minimal for WSL
+  fileSystems."/" = {
+    device = "none";
+    fsType = "tmpfs";
+  };
+
+  # Boot loader - dummy for WSL
+  boot.loader.grub.enable = false;
+  boot.isContainer = true;
+  
+  # Basic user setup for WSL
+  users.users.daf = {
+    isNormalUser = true;
+    home = "/home/daf";
+    group = "users";
+    extraGroups = [ "wheel" ];
+    shell = pkgs.bash;
+  };
 }
