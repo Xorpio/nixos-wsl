@@ -4,6 +4,8 @@
   wsl.enable = true;
   wsl.defaultUser = "daf";
 
+  time.timeZone = "Europe/Amsterdam";
+
   # PACCAR corporate CA — required before any network ops
   security.pki.certificateFiles = [ /etc/nixos/paccar-root.crt ];
 

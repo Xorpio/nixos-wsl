@@ -7,10 +7,19 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    taskwarrior3
     tasksh
     taskwarrior-tui
   ];
+
+  programs.taskwarrior = {
+    enable = true;
+    package = pkgs.taskwarrior3;
+    config = {
+      dateformat         = "Y-M-D H:N";
+      "dateformat.info"  = "Y-M-D H:N:S";
+      "dateformat.annotation" = "Y-M-D H:N";
+    };
+  };
 
   # rebuild / hm → both trigger nixos-rebuild (HM is managed at system level;
   #                Nix caches mean a home-only change is still fast)
