@@ -40,27 +40,29 @@
         [╭─](bold white)$os$username$hostname$directory$git_branch$git_status$nix_shell$cmd_duration
         [╰─](bold white)$character'';
 
+      # Colour palette: deep steel blue → teal → indigo → magenta
+      # All segments use bright fg on dark bg for easy reading
       os = {
         disabled = false;
-        style = "bg:blue fg:white bold";
+        style = "bg:#1c3a5e fg:#89b4fa bold";
         symbols.NixOS = "❄ ";
       };
 
       username = {
         show_always = true;
-        style_user = "bg:blue fg:white bold";
-        style_root = "bg:red fg:white bold";
+        style_user = "bg:#1c3a5e fg:#cdd6f4 bold";
+        style_root  = "bg:#6e0000 fg:#f38ba8 bold";
         format = "[ $user ]($style)";
       };
 
       hostname = {
         ssh_only = false;
-        style = "bg:blue fg:white";
+        style = "bg:#1c3a5e fg:#a6adc8";
         format = "[@$hostname ]($style)";
       };
 
       directory = {
-        style = "bg:cyan fg:black bold";
+        style = "bg:#1e5f5f fg:#94e2d5 bold";
         format = "[ $path ]($style)";
         truncation_length = 3;
         truncate_to_repo = true;
@@ -70,19 +72,19 @@
       };
 
       git_branch = {
-        style = "bg:purple fg:white bold";
+        style = "bg:#3b1f6e fg:#cba6f7 bold";
         format = "[ $symbol$branch ]($style)";
         symbol = " ";
       };
 
       git_status = {
-        style = "bg:purple fg:white";
+        style = "bg:#3b1f6e fg:#f5c2e7";
         format = "[$all_status$ahead_behind]($style) ";
       };
 
       nix_shell = {
         disabled = false;
-        style = "bg:blue fg:white";
+        style = "bg:#1c3a5e fg:#89dceb";
         format = "[ ❄ $name ]($style)";
       };
 
