@@ -18,6 +18,7 @@
     git
     curl
     wget
+    home-manager
   ];
 
   # Home-manager wired in at system level

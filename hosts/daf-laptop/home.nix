@@ -12,11 +12,11 @@
     taskwarrior-tui
   ];
 
-  # rebuild     → full NixOS system + home rebuild (slow, use when changing system.nix)
-  # hm          → home-manager only (fast, use when changing home.nix)
+  # rebuild / hm → both trigger nixos-rebuild (HM is managed at system level;
+  #                Nix caches mean a home-only change is still fast)
   home.shellAliases = {
     rebuild = "sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#daf-laptop";
-    hm      = "home-manager switch --flake ~/nixos-wsl#daf@daf-laptop";
+    hm      = "sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#daf-laptop";
   };
 
   programs.zsh = {
