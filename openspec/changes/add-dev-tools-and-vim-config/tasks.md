@@ -7,6 +7,13 @@
 - [x] 1.5 Enable vim in home-manager configuration (programs.vim.enable = true)
 - [x] 1.6 Configure vim to enable line numbers (programs.vim.settings.number = true)
 
+## 1b. Pre-deployment fix (Wanda Maximoff — 2026-06-04)
+
+- [x] 1b.1 Move taskwarrior3/tasksh/taskwarrior-tui/neovim into per-machine home.nix (was only in nixosConfigurations, missing from homeConfigurations / home-manager switch path)
+- [x] 1b.2 Move programs.vim config into per-machine home.nix for same reason
+- [x] 1b.3 Remove dead modules.neovim (enable=false) import from home-desktop/home.nix
+- [x] 1b.4 Remove now-redundant flake.nix home.packages / vim block and unused pkgs binding
+
 ## 2. Test on daf-laptop
 
 - [ ] 2.1 Deploy changes using home-manager switch
