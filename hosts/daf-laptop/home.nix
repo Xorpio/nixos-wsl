@@ -7,7 +7,9 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    # add tools here
+    taskwarrior3
+    tasksh
+    taskwarrior-tui
   ];
 
   # rebuild     → full NixOS system + home rebuild (slow, use when changing system.nix)
