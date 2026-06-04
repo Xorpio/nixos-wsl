@@ -66,3 +66,89 @@ Phase 2 will import these modules into each host's `home.nix` and test compositi
 ## Learnings Summary
 
 (See work session above — Phase 1 complete)
+
+---
+
+## Work Session: 2026-06-04 (Flake Validation & Blocker Investigation)
+
+**Date:** 2026-06-04  
+**Session Type:** Diagnostic / Blocker Resolution  
+**Trigger:** `nix flake show` fails with "nix-command" experimental feature disabled
+
+### Flake Structure: VALID ✅
+
+Reviewed `flake.nix` manually. Structure is sound:
+
+**Inputs:**
+- `nixpkgs` → `github:nixos/nixpkgs/nixos-24.05`
+- `home-manager` → `release-24.05` (follows nixpkgs)
+- `sops-nix` → latest (follows nixpkgs)
+
+**Outputs — nixosConfigurations (3 machines):**
+| Machine | System | Default User |
+|---|---|---|
+| `daf-laptop` | x86_64-linux | daf |
+| `centric-laptop` | x86_64-linux | centric |
+| `home-desktop` | x86_64-linux | nixos |
+
+**Outputs — homeConfigurations (standalone home-manager):**
+- `daf@daf-laptop`
+- `centric@centric-laptop`
+- `nixos@home-desktop`
+
+**Outputs — devShells:**
+- `devShells.x86_64-linux.default` (nix + git + pre-commit)
+
+Each machine uses `mkHostConfig` helper — no duplication. All three system.nix files already declare `nix.settings.experimental-features = [ "nix-command" "flakes" ]`. This is correct: once bootstrapped, the machine will enable flakes permanently.
+
+### The Blocker Explained
+
+`/etc/nix/nix.conf` (NixOS WSL) does NOT currently have `experimental-features = nix-command flakes` — that setting is managed by NixOS configuration and only applies after a `nixos-rebuild switch`. Before the first rebuild, you're running on the initial NixOS-WSL install which has a generated nix.conf without experimental features enabled.
+
+### Workarounds (for Niek to run manually)
+
+**Option A — One-shot, no config change (use this to validate):**
+```bash
+# In NixOS WSL, cd to the repo first
+cd /mnt/c/Users/Niek.de.Gooijer/nixos-wsl
+
+nix flake show --extra-experimental-features 'nix-command flakes'
+nix flake metadata --extra-experimental-features 'nix-command flakes'
+```
+
+**Option B — Permanent fix via user nix.conf (use this to unblock daily work):**
+```bash
+mkdir -p ~/.config/nix
+echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
+# Now nix flake show and nix flake metadata work without flags
+nix flake show
+```
+
+**Option C — Permanent fix via NixOS system (the right long-term answer):**  
+Already in the repo! Each `hosts/{hostname}/system.nix` has:
+```nix
+nix.settings.experimental-features = [ "nix-command" "flakes" ];
+```
+After running `sudo nixos-rebuild switch --flake .#{hostname}` for the first time, this will be written to `/etc/nix/nix.conf` permanently. From that point, no flags needed.
+
+### Recommended Bootstrap Order
+
+1. Add `~/.config/nix/nix.conf` with `experimental-features = nix-command flakes` (Option B above) — **one command, unblocks everything immediately**
+2. Verify the flake: `nix flake show` and `nix flake metadata`
+3. Do the initial rebuild: `sudo nixos-rebuild switch --flake .#daf-laptop` (or the correct machine name)
+4. After rebuild, the system-level nix.conf takes over — user nix.conf no longer needed
+
+### Modules Confirmed Present
+
+All modules referenced by home.nix files exist:
+- `modules/shell/` ✅
+- `modules/git/` ✅  
+- `modules/dev-tools/` ✅
+- `modules/neovim/` ✅
+- `modules/sops/` ✅
+
+### Next Steps
+
+- Niek runs Option B to unblock himself immediately
+- Run `nix flake show` to confirm outputs are visible
+- Proceed to bootstrap first machine with `nixos-rebuild switch --flake .#{hostname}`
