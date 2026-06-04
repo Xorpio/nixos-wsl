@@ -53,6 +53,18 @@
                   (./. + "/hosts/${hostname}/home.nix")
                   sops-nix.homeManagerModules.sops
                 ];
+
+                # Development tools
+                home.packages = with pkgs; [
+                  taskwarrior
+                  tasksh
+                  taskwarrior-tui
+                  neovim
+                ];
+
+                # Vim configuration
+                programs.vim.enable = true;
+                programs.vim.settings.number = true;
               };
             }
           ];
