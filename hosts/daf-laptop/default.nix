@@ -7,6 +7,12 @@
   # PACCAR corporate CA — required before any network ops
   security.pki.certificateFiles = [ /etc/nixos/paccar-root.crt ];
 
+  # zsh must be enabled at system level so it lands in /etc/shells
+  programs.zsh.enable = true;
+
+  # Set zsh as default shell for daf
+  users.users.daf.shell = pkgs.zsh;
+
   # System-level packages (available to all users)
   environment.systemPackages = with pkgs; [
     git
