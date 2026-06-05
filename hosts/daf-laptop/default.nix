@@ -21,6 +21,7 @@
     curl
     wget
     home-manager
+    sops
   ];
 
   # Home-manager wired in at system level
