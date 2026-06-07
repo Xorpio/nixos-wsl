@@ -1,10 +1,16 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   home.username = "xorpio";
   home.homeDirectory = "/home/xorpio";
   home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;
+
+  sops.defaultSopsFile = ../../secrets/machines/desktop-pc/taskwarrior.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.secrets."sync.server.url" = { };
+  sops.secrets."sync.server.client_id" = { };
+  sops.secrets."sync.encryption_secret" = { };
 
   home.packages = with pkgs; [
     tasksh
@@ -20,6 +26,24 @@
       "dateformat.annotation" = "Y-M-D H:N";
     };
   };
+
+  home.activation.generateTaskrc = config.lib.dag.entryAfter ["writeBoundary"] ''
+    ${pkgs.bash}/bin/bash << 'EOF'
+      mkdir -p ~/.config/taskwarrior 2>/dev/null || true
+      cat > ~/.taskrc << TASKRC
+# Taskwarrior configuration with synced settings
+dateformat=Y-M-D H:N
+dateformat.info=Y-M-D H:N:S
+dateformat.annotation=Y-M-D H:N
+
+# Sync configuration (populated from secrets)
+sync.server.url=$(cat "${config.sops.secrets."sync.server.url".path}")
+sync.server.client_id=$(cat "${config.sops.secrets."sync.server.client_id".path}")
+sync.encryption_secret=$(cat "${config.sops.secrets."sync.encryption_secret".path}")
+TASKRC
+      chmod 600 ~/.taskrc
+    EOF
+  '';
 
   # rebuild / hm → both trigger nixos-rebuild (HM is managed at system level;
   #                Nix caches mean a home-only change is still fast)

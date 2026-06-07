@@ -31,11 +31,15 @@ Shell aliases: `rebuild` and `hm` (same as rebuild for that machine).
 
 ## Current Task
 
-Install and integrate SOPS (Secrets Operations) into the flake for both systems:
-1. Add SOPS as a flake input
-2. Integrate SOPS tooling into system packages (nixos-rebuild gets the tools)
-3. Integrate into both `daf-laptop` and `desktop-pc` configs
-4. Validate rebuilds work on both machines
+**Completed:** Design SOPS secrets strategy for taskwarrior syncing (2026-06-07)
+
+Architecture proposal delivered to `.squad/decisions/inbox/lester-taskwarrior-sops.md`. Key decisions:
+- Per-machine encrypted YAML files (different `client_id`, shared `encryption_secret`)
+- Age-based encryption (simpler than GPG for NixOS)
+- SOPS configuration in `secrets/.sops.yaml`
+- Home Manager decryption at rebuild time via `builtins.readFile` + `pkgs.runCommand`
+- Age public keys committed to repo; private keys stay on-disk
+- Updated `.gitignore` to exclude Age private keys
 
 ## Learnings
 

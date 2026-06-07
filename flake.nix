@@ -11,9 +11,13 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, home-manager }:
+  outputs = { self, nixpkgs, nixos-wsl, home-manager, sops-nix }:
     {
       # daf-laptop: Corporate setup with PACCAR cert
       nixosConfigurations.daf-laptop = nixpkgs.lib.nixosSystem {
@@ -22,12 +26,18 @@
           nixos-wsl.nixosModules.wsl
           home-manager.nixosModules.home-manager
           ./hosts/daf-laptop
+          {
+            home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
+          }
         ];
       };
 
       homeConfigurations."daf@daf-laptop" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/daf-laptop/home.nix ];
+        modules = [
+          sops-nix.homeManagerModules.sops
+          ./hosts/daf-laptop/home.nix
+        ];
       };
 
       # desktop-pc: Clean setup without corporate cert
@@ -37,12 +47,18 @@
           nixos-wsl.nixosModules.wsl
           home-manager.nixosModules.home-manager
           ./hosts/desktop-pc
+          {
+            home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
+          }
         ];
       };
 
       homeConfigurations."xorpio@desktop-pc" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/desktop-pc/home.nix ];
+        modules = [
+          sops-nix.homeManagerModules.sops
+          ./hosts/desktop-pc/home.nix
+        ];
       };
     };
 }
