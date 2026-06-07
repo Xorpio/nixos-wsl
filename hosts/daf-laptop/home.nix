@@ -8,6 +8,7 @@
 
   sops.defaultSopsFile = ../../secrets/machines/daf-laptop/taskwarrior.yaml;
   sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/daf/.config/sops/age/keys.txt";
   sops.secrets."sync.server.url" = { };
   sops.secrets."sync.server.client_id" = { };
   sops.secrets."sync.encryption_secret" = { };

@@ -8,6 +8,7 @@
 
   sops.defaultSopsFile = ../../secrets/machines/desktop-pc/taskwarrior.yaml;
   sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/xorpio/.config/sops/age/keys.txt";
   sops.secrets."sync.server.url" = { };
   sops.secrets."sync.server.client_id" = { };
   sops.secrets."sync.encryption_secret" = { };

@@ -12,6 +12,9 @@
   # Set zsh as default shell for xorpio
   users.users.xorpio.shell = pkgs.zsh;
 
+  # SSH needed for SOPS Age key derivation from SSH keys
+  services.openssh.enable = true;
+
   # System-level packages (available to all users)
   environment.systemPackages = with pkgs; [
     git

@@ -15,6 +15,9 @@
   # Set zsh as default shell for daf
   users.users.daf.shell = pkgs.zsh;
 
+  # SSH needed for SOPS Age key derivation from SSH keys
+  services.openssh.enable = true;
+
   # System-level packages (available to all users)
   environment.systemPackages = with pkgs; [
     git
