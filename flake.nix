@@ -1,10 +1,14 @@
 {
-  description = "Multi-machine NixOS configuration for WSL and home-desktop";
+  description = "NixOS WSL — minimal bootstrap";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -13,89 +17,47 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, sops-nix }:
-    let
-      # Define the systems and their usernames
-      hosts = {
-        daf-laptop = { system = "x86_64-linux"; user = "daf"; };
-        centric-laptop = { system = "x86_64-linux"; user = "centric"; };
-        home-desktop = { system = "x86_64-linux"; user = "nixos"; };
-      };
-
-      # Create inputs set for passing to modules
-      inputs = { inherit nixpkgs home-manager sops-nix; };
-
-      # Helper function to create a host configuration
-      mkHostConfig = hostname: hostConfig:
-        let
-          pkgs = nixpkgs.legacyPackages.${hostConfig.system};
-          user = hostConfig.user;
-        in
-        nixpkgs.lib.nixosSystem {
-          system = hostConfig.system;
-          specialArgs = { inherit inputs self; };
-          modules = [
-            # Import per-machine system configuration
-            (./. + "/hosts/${hostname}/system.nix")
-
-            # Home manager integration at system level
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${user} = {
-                # Import host-specific home configuration
-                imports = [
-                  (./. + "/hosts/${hostname}/home.nix")
-                  sops-nix.homeManagerModules.sops
-                ];
-              };
-            }
-          ];
-        };
-    in
+  outputs = { self, nixpkgs, nixos-wsl, home-manager, sops-nix }:
     {
-      # Define nixosConfigurations for all three machines
-      nixosConfigurations = {
-        daf-laptop = mkHostConfig "daf-laptop" hosts.daf-laptop;
-        centric-laptop = mkHostConfig "centric-laptop" hosts.centric-laptop;
-        home-desktop = mkHostConfig "home-desktop" hosts.home-desktop;
+      # daf-laptop: Corporate setup with PACCAR cert
+      nixosConfigurations.daf-laptop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          nixos-wsl.nixosModules.wsl
+          home-manager.nixosModules.home-manager
+          ./hosts/daf-laptop
+          {
+            home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
+          }
+        ];
       };
 
-      # Define homeConfigurations for standalone home-manager usage
-      homeConfigurations = {
-        "daf@daf-laptop" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs self; };
-          modules = [
-            ./hosts/daf-laptop/home.nix
-            sops-nix.homeManagerModules.sops
-          ];
-        };
-        "centric@centric-laptop" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs self; };
-          modules = [
-            ./hosts/centric-laptop/home.nix
-            sops-nix.homeManagerModules.sops
-          ];
-        };
-        "nixos@home-desktop" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs self; };
-          modules = [
-            ./hosts/home-desktop/home.nix
-            sops-nix.homeManagerModules.sops
-          ];
-        };
+      homeConfigurations."daf@daf-laptop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [
+          sops-nix.homeManagerModules.sops
+          ./hosts/daf-laptop/home.nix
+        ];
       };
 
-      # Development environment for working on the flake itself
-      devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
-        buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [
-          nix
-          git
-          pre-commit
+      # desktop-pc: Clean setup without corporate cert
+      nixosConfigurations.desktop-pc = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          nixos-wsl.nixosModules.wsl
+          home-manager.nixosModules.home-manager
+          ./hosts/desktop-pc
+          {
+            home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
+          }
+        ];
+      };
+
+      homeConfigurations."xorpio@desktop-pc" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [
+          sops-nix.homeManagerModules.sops
+          ./hosts/desktop-pc/home.nix
         ];
       };
     };

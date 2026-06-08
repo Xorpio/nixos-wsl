@@ -1,50 +1,5 @@
-# Git attributes for line ending normalization and merge strategies
-# Enforce consistent line endings across platforms (Windows, WSL, macOS, Linux)
-
-# Auto-detect text files, use LF line endings by default
-* text=auto eol=lf
-
-# Nix files - LF line endings
-*.nix text eol=lf
-
-# Shell scripts - LF line endings
-*.sh text eol=lf
-*.bash text eol=lf
-
-# YAML and configuration files - LF line endings
-*.yaml text eol=lf
-*.yml text eol=lf
-
-# JSON files - LF line endings
-*.json text eol=lf
-
-# Markdown documentation - LF line endings
-*.md text eol=lf
-*.markdown text eol=lf
-
-# Text files - LF line endings
-*.txt text eol=lf
-
-# Binary files - do not normalize, use binary diff
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.ico binary
-*.zip binary
-*.tar binary
-*.gz binary
-*.tar.gz binary
-*.tgz binary
-*.rar binary
-*.7z binary
-
 # Squad: union merge for append-only team state files
 .squad/decisions.md merge=union
 .squad/agents/*/history.md merge=union
 .squad/log/** merge=union
 .squad/orchestration-log/** merge=union
-
-# Nix build outputs - not tracked
-result binary
-result-* binary

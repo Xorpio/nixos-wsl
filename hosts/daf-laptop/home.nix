@@ -1,44 +1,43 @@
-{ config, pkgs, lib, ... }:
-
+{ pkgs, config, ... }:
 {
-  imports = [
-    ../../modules/shell
-    ../../modules/git
-    ../../modules/dev-tools
-    ../../modules/sops
-  ];
+  imports = [ ../common/home.nix ];
 
-  home.username = "daf";
+  home.username      = "daf";
   home.homeDirectory = "/home/daf";
-  home.stateVersion = "24.05";
-  home.enableNixpkgsReleaseCheck = false;
 
-  # Enable all modules
-  modules = {
-    shell = {
-      enable = true;
-      defaultShell = "zsh";
-      additionalAliases = {
-        nix-rebuild = "sudo nixos-rebuild switch --flake /root/.config/nixos";
-      };
+  # ── SOPS secrets ──────────────────────────────────────────────────────────
+  sops = {
+    age.keyFile              = "/home/daf/.config/sops/age/keys.txt";
+    defaultSopsFile          = ../../secrets/machines/daf-laptop/taskwarrior.yaml;
+    defaultSopsFormat        = "yaml";
+    defaultSymlinkPath       = "/run/user/1000/secrets";
+    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
+
+    secrets."sync_server_url" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_server_url";
     };
-
-    git = {
-      enable = true;
-      userName = "Daf";
-      userEmail = "daf@example.com";
+    secrets."sync_server_client_id" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_server_client_id";
     };
-
-    dev-tools = {
-      enable = true;
-      includeCore = true;
-      includeSearch = true;
-      includeLs = true;
-      includeViewers = true;
+    secrets."sync_encryption_secret" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_encryption_secret";
     };
+  };
 
-    sops = {
-      enable = true;
+  # ── Shell aliases ─────────────────────────────────────────────────────────
+  home.shellAliases = {
+    rebuild = "sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#daf-laptop";
+    hm      = "sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#daf-laptop";
+  };
+
+  # ── Starship prompt ───────────────────────────────────────────────────────
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = true;
+      format = ''
+        $username$hostname$directory$git_branch$git_status$nix_shell$cmd_duration
+        $character'';
     };
   };
 }

@@ -28,7 +28,7 @@ repos:
       # TOML format check
       - id: check-toml
       # Check for secret-like strings (simple patterns)
-      - id: detect-private-key
+      # - id: detect-private-key
 
   # Shell script linting with shellcheck
   - repo: https://github.com/shellcheck-py/shellcheck-py

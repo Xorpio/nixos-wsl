@@ -1,26 +1,17 @@
-# Sops configuration for secrets management
-# Reference: https://github.com/mozilla/sops
+ creation_rules:
+   - path_regex: 'secrets(/|\\)machines(/|\\)daf-laptop(/|\\).*'
+     key_groups:
+       - age:
+           - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
 
-keys:
-  - &daf_key age1dafnkey7w8n5q3r9m2k1x4z6y8j2l5n7p9r2t4v6w8y0z2
-  - &centric_key age1centrickey4n2m5x7q9r1t3v5w7y9z1a3b5d7e9f1h3j5l7n9p
-  - &home_key age1homedesktopkey2w4m6k8j0n2p4r6t8v0x2y4z6a8b0c2d4e6f8g0h2j4
+   - path_regex: 'secrets(/|\\)machines(/|\\)desktop-pc(/|\\).*'
+     key_groups:
+       - age:
+           - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
+           - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
 
-creation_rules:
-  # daf-laptop secrets
-  - path_regex: secrets/daf-laptop/.*\.yaml$
-    key_groups:
-      - keys:
-          - *daf_key
-  
-  # centric-laptop secrets
-  - path_regex: secrets/centric-laptop/.*\.yaml$
-    key_groups:
-      - keys:
-          - *centric_key
-  
-  # home-desktop secrets
-  - path_regex: secrets/home-desktop/.*\.yaml$
-    key_groups:
-      - keys:
-          - *home_key
+   - path_regex: 'secrets(/|\\)shared(/|\\).*'
+     key_groups:
+       - age:
+           - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
+           - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
