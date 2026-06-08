@@ -1,17 +1,27 @@
- creation_rules:
-   - path_regex: 'secrets(/|\\)machines(/|\\)daf-laptop(/|\\).*'
-     key_groups:
-       - age:
-           - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
+# Define reusable key groups
+key_groups:
+  daf_laptop: &daf_laptop_keys
+    - age:
+        - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
+        - age10xqkavuu3uujfenfqphuf8xyxa325nwquv99jaxxrd64erha24lsg07fme
 
-   - path_regex: 'secrets(/|\\)machines(/|\\)desktop-pc(/|\\).*'
-     key_groups:
-       - age:
-           - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
-           - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
+  desktop_pc: &desktop_pc_keys
+    - age:
+        - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
+        - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
 
-   - path_regex: 'secrets(/|\\)shared(/|\\).*'
-     key_groups:
-       - age:
-           - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
-           - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
+  shared: &shared_keys
+    - age:
+        - age1yh7lqx5qj6u7wxed7sywd642thl7k32rr67th6n2d94adxc98gksnt4jeg
+        - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
+        - age10xqkavuu3uujfenfqphuf8xyxa325nwquv99jaxxrd64erha24lsg07fme
+
+creation_rules:
+  - path_regex: 'secrets(/|\\)machines(/|\\)daf-laptop(/|\\).*'
+    key_groups: *daf_laptop_keys
+
+  - path_regex: 'secrets(/|\\)machines(/|\\)desktop-pc(/|\\).*'
+    key_groups: *desktop_pc_keys
+
+  - path_regex: 'secrets(/|\\)shared(/|\\).*'
+    key_groups: *shared_keys
