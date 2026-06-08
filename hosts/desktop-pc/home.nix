@@ -6,12 +6,23 @@
 
   programs.home-manager.enable = true;
 
-  sops.defaultSopsFile = ../../secrets/machines/desktop-pc/taskwarrior.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/xorpio/.config/sops/age/keys.txt";
-  sops.secrets."sync.server.url" = { };
-  sops.secrets."sync.server.client_id" = { };
-  sops.secrets."sync.encryption_secret" = { };
+  sops = {
+    age.keyFile = "/home/xorpio/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/machines/desktop-pc/taskwarrior.yaml;
+    defaultSopsFormat = "yaml";
+    defaultSymlinkPath = "/run/user/1000/secrets";
+    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
+
+    secrets."sync.server.url" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_server_url";
+    };
+    secrets."sync.server.client_id" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_server_client_id";
+    };
+    secrets."sync.encryption_secret" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_encryption_secret";
+    };
+  };
 
   home.packages = with pkgs; [
     tasksh
