@@ -13,13 +13,13 @@
     defaultSymlinkPath = "/run/user/1000/secrets";
     defaultSecretsMountPoint = "/run/user/1000/secrets.d";
 
-    secrets."sync.server.url" = {
+    secrets."sync_server_url" = {
       path = "${config.sops.defaultSymlinkPath}/sync_server_url";
     };
-    secrets."sync.server.client_id" = {
+    secrets."sync_server_client_id" = {
       path = "${config.sops.defaultSymlinkPath}/sync_server_client_id";
     };
-    secrets."sync.encryption_secret" = {
+    secrets."sync_encryption_secret" = {
       path = "${config.sops.defaultSymlinkPath}/sync_encryption_secret";
     };
   };
@@ -49,9 +49,9 @@ dateformat.info=Y-M-D H:N:S
 dateformat.annotation=Y-M-D H:N
 
 # Sync configuration (populated from secrets)
-sync.server.url=$(cat "${config.sops.secrets."sync.server.url".path}")
-sync.server.client_id=$(cat "${config.sops.secrets."sync.server.client_id".path}")
-sync.encryption_secret=$(cat "${config.sops.secrets."sync.encryption_secret".path}")
+sync.server.url=$(cat "${config.sops.secrets."sync_server_url".path}")
+sync.server.client_id=$(cat "${config.sops.secrets."sync_server_client_id".path}")
+sync.encryption_secret=$(cat "${config.sops.secrets."sync_encryption_secret".path}")
 TASKRC
       chmod 600 ~/.taskrc
     EOF
