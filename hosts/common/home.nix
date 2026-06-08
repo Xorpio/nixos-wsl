@@ -79,7 +79,7 @@ dateformat.annotation=Y-M-D H:N
 # Sync configuration (populated from secrets)
 sync.server.url=$(cat "${config.sops.secrets."sync_server_url".path}")
 sync.server.client_id=$(cat "${config.sops.secrets."sync_server_client_id".path}")
-sync.encryption_secret=$(cat "${config.sops.secrets."sync_encryption_secret".path}")
+sync.encryption_secret=$(cat "${config.sops.secrets."sync_server_encryption_secret".path}")
 TASKRC
       chmod 600 ~/.taskrc
     EOF
