@@ -19,8 +19,8 @@
     secrets."sync_server_client_id" = {
       path = "${config.sops.defaultSymlinkPath}/sync_server_client_id";
     };
-    secrets."sync_encryption_secret" = {
-      path = "${config.sops.defaultSymlinkPath}/sync_encryption_secret";
+    secrets."sync_server_encryption_secret" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_server_encryption_secret";
     };
   };
 

@@ -33,6 +33,7 @@
         swapfile = false;
         backup = false;
         updatetime = 250;
+        mouse = "";
       };
     };
   };
