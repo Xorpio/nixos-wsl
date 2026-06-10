@@ -21,5 +21,7 @@
   home-manager.useGlobalPkgs    = true;
   home-manager.useUserPackages  = true;
 
+  nix.settings.experimental-features = ["nix-command" "flakes" ];
+
   system.stateVersion = "25.05";
 }

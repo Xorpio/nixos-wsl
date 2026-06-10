@@ -5,6 +5,11 @@
   home.username      = "daf";
   home.homeDirectory = "/home/daf";
 
+  my.git = {
+    userName = "Niek";
+    userEmail = "3060868+Xorpio@users.noreply.github.com";
+  };
+
   # ── SOPS secrets ──────────────────────────────────────────────────────────
   sops = {
     age.keyFile              = "/home/daf/.config/sops/age/keys.txt";
@@ -19,8 +24,8 @@
     secrets."sync_server_client_id" = {
       path = "${config.sops.defaultSymlinkPath}/sync_server_client_id";
     };
-    secrets."sync_encryption_secret" = {
-      path = "${config.sops.defaultSymlinkPath}/sync_encryption_secret";
+    secrets."sync_server_encryption_secret" = {
+      path = "${config.sops.defaultSymlinkPath}/sync_server_encryption_secret";
     };
   };
 

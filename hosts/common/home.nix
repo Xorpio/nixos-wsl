@@ -1,5 +1,7 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 {
+  imports = [ ./git.nix ];
+
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 
@@ -54,6 +56,7 @@
   home.packages = with pkgs; [
     tasksh
     taskwarrior-tui
+    yazi
   ];
 
   programs.taskwarrior = {
@@ -67,10 +70,21 @@
   };
 
   # Write ~/.taskrc from sops secrets (secrets are defined per-host)
-  home.activation.generateTaskrc = config.lib.dag.entryAfter ["writeBoundary"] ''
-    ${pkgs.bash}/bin/bash << 'EOF'
-      mkdir -p ~/.config/taskwarrior 2>/dev/null || true
-      cat > ~/.taskrc << TASKRC
+  # Override sops activation ordering: restart the user unit only after
+  # Home Manager has reloaded user systemd units for this generation.
+  home.activation.sops-nix = lib.mkForce (config.lib.dag.entryAfter ["reloadSystemd"] ''
+    if env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" \
+      PATH="${pkgs.systemd}/bin:$PATH" \
+      ${pkgs.systemd}/bin/systemctl --user list-unit-files | ${pkgs.gnugrep}/bin/grep -q '^sops-nix\.service'; then
+      env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" \
+        PATH="${pkgs.systemd}/bin:$PATH" \
+        ${pkgs.systemd}/bin/systemctl restart --user sops-nix.service
+    fi
+  '');
+
+  home.activation.generateTaskrc = config.lib.dag.entryAfter ["writeBoundary" "sops-nix"] ''
+    mkdir -p "$HOME/.config/task" 2>/dev/null || true
+    cat > "$HOME/.taskrc" <<TASKRC
 # Taskwarrior configuration with synced settings
 dateformat=Y-M-D H:N
 dateformat.info=Y-M-D H:N:S
@@ -81,8 +95,7 @@ sync.server.url=$(cat "${config.sops.secrets."sync_server_url".path}")
 sync.server.client_id=$(cat "${config.sops.secrets."sync_server_client_id".path}")
 sync.encryption_secret=$(cat "${config.sops.secrets."sync_server_encryption_secret".path}")
 TASKRC
-      chmod 600 ~/.taskrc
-    EOF
+    chmod 600 "$HOME/.taskrc"
   '';
 
   # ── Zsh ───────────────────────────────────────────────────────────────────
@@ -99,3 +112,4 @@ TASKRC
     };
   };
 }
+
