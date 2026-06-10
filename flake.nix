@@ -15,9 +15,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, home-manager, sops-nix }:
+  outputs = { self, nixpkgs, nixos-wsl, home-manager, sops-nix, nvf }:
     {
       # daf-laptop: Corporate setup with PACCAR cert
       nixosConfigurations.daf-laptop = nixpkgs.lib.nixosSystem {
@@ -27,7 +31,10 @@
           home-manager.nixosModules.home-manager
           ./hosts/daf-laptop
           {
-            home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
+            home-manager.sharedModules = [
+              sops-nix.homeManagerModules.sops
+              nvf.homeManagerModules.default
+            ];
           }
         ];
       };
@@ -38,6 +45,7 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [
           sops-nix.homeManagerModules.sops
+          nvf.homeManagerModules.default
           ./hosts/daf-laptop/home.nix
         ];
       };
@@ -50,7 +58,10 @@
           home-manager.nixosModules.home-manager
           ./hosts/desktop-pc
           {
-            home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
+            home-manager.sharedModules = [
+              sops-nix.homeManagerModules.sops
+              nvf.homeManagerModules.default
+            ];
           }
         ];
       };
@@ -59,6 +70,7 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [
           sops-nix.homeManagerModules.sops
+          nvf.homeManagerModules.default
           ./hosts/desktop-pc/home.nix
         ];
       };

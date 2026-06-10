@@ -1,4 +1,4 @@
-{pkgs, config, ... };
+{ pkgs, config, ... }:
 {
   # ── Taskwarrior ───────────────────────────────────────────────────────────
   home.packages = with pkgs; [
@@ -17,8 +17,8 @@
   };
 
   home.activation.generateTaskrc = config.lib.dag.entryAfter ["writeBoundary" "sops-nix"] ''
-    mkdir -p "$HOME/.config/task" 2>/dev/null || true
-    cat > "$HOME/.taskrc" <<TASKRC
+mkdir -p "$HOME/.config/task" 2>/dev/null || true
+cat > "$HOME/.taskrc" <<'TASKRC'
 # Taskwarrior configuration with synced settings
 dateformat=Y-M-D H:N
 dateformat.info=Y-M-D H:N:S
@@ -29,6 +29,6 @@ sync.server.url=$(cat "${config.sops.secrets."sync_server_url".path}")
 sync.server.client_id=$(cat "${config.sops.secrets."sync_server_client_id".path}")
 sync.encryption_secret=$(cat "${config.sops.secrets."sync_server_encryption_secret".path}")
 TASKRC
-    chmod 600 "$HOME/.taskrc"
+chmod 600 "$HOME/.taskrc"
   '';
-};
+}
