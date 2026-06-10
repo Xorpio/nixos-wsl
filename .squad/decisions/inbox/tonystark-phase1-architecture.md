@@ -1,7 +1,7 @@
 # Architecture Review — Phase 1: Flake Initialization
-**Reviewed by:** Tony Stark (Lead)  
-**Date:** 2026-06-03  
-**Status:** Approved for Implementation  
+**Reviewed by:** Tony Stark (Lead)
+**Date:** 2026-06-03
+**Status:** Approved for Implementation
 
 ---
 
@@ -17,7 +17,7 @@
 - Both coexist without friction; home-manager is the default day-to-day path
 
 **Implementation Notes for Rocket:**
-- Define both outputs in `flake.nix` 
+- Define both outputs in `flake.nix`
 - Each machine gets: `nixosConfigurations.{hostname}` → system config, AND `homeConfigurations.{user}@{hostname}` → user config
 - Document in README that day-to-day users should run `home-manager switch --flake .#{user}@{hostname}`, with `nixos-rebuild` reserved for system changes
 - Ensure `flake show` displays both output types clearly
@@ -86,7 +86,7 @@
 ## Caveats & Implementation Order
 
 1. **Flake Complexity:** Flakes are not trivial for newcomers. Ensure the repo is well-commented and the README includes:
-   - Directory structure diagram  
+   - Directory structure diagram
    - Example: How to add a new machine
    - Troubleshooting section for common flake errors (e.g., "flake.lock conflicts")
 
@@ -112,7 +112,7 @@
 
 ## Sign-Off
 
-✅ **Approved for Phase 1 implementation.**  
+✅ **Approved for Phase 1 implementation.**
 These decisions align with our existing architecture (as documented in design.md and decisions.md) and provide clear guidance for Rocket Raccoon's implementation. All four questions are resolved with specific, actionable recommendations.
 
 **Next:** Rocket Raccoon proceeds with coding. Bruce Banner validates implementation against the spec.

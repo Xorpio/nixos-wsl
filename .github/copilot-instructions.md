@@ -135,5 +135,3 @@ rebuild                        # Apply changes
 - **Impure evaluation**: The `--impure` flag is required. Do not remove it.
 - **daf-laptop certificate**: Will fail on first rebuild without `/etc/nixos/paccar-root.crt`.
 - **Home Manager at system level**: Do not use `home-manager` CLI directly; it's integrated into `nixos-rebuild`.
-
-

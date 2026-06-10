@@ -1,8 +1,8 @@
 # Decision Document: Phase 1 — Flake Structure Initialization
 
-**Date:** 2026-06-03  
-**Owner:** Rocket Raccoon (Backend)  
-**Status:** Implemented  
+**Date:** 2026-06-03
+**Owner:** Rocket Raccoon (Backend)
+**Status:** Implemented
 
 ---
 
@@ -196,17 +196,17 @@ Expected: Currently fails because home.nix files are placeholders
 
 ## Architectural Alignment
 
-✓ Single flake managing all three machines (Decision: Single Flake for All Machines)  
-✓ home-manager as primary tool (Decision: home-manager as Primary Deployment Tool)  
-✓ Composable outputs via mkHostConfig (Decision: Shared Modules Pattern)  
-✓ sops-nix available for secrets (Decision: Per-Machine Encrypted Secrets)  
-✓ Directory structure supports future scaling (Decision: Shared Modules Pattern)  
+✓ Single flake managing all three machines (Decision: Single Flake for All Machines)
+✓ home-manager as primary tool (Decision: home-manager as Primary Deployment Tool)
+✓ Composable outputs via mkHostConfig (Decision: Shared Modules Pattern)
+✓ sops-nix available for secrets (Decision: Per-Machine Encrypted Secrets)
+✓ Directory structure supports future scaling (Decision: Shared Modules Pattern)
 
 ---
 
 ## Handoff to Phase 2
 
-**Next Owner:** Rocket Raccoon (Backend)  
+**Next Owner:** Rocket Raccoon (Backend)
 **Next Task:** Phase 2 — Build Shared Configuration Modules
 - Create `modules/shell/default.nix` (shell environment)
 - Create `modules/git/default.nix` (git configuration)
@@ -218,11 +218,11 @@ Expected: Currently fails because home.nix files are placeholders
 
 ## Sign-Off
 
-✓ Flake syntax verified by manual review  
-✓ Directory structure created per architecture  
-✓ All three machines declared in outputs  
-✓ Helper function reduces duplication  
-✓ Ready for Phase 2 module development  
+✓ Flake syntax verified by manual review
+✓ Directory structure created per architecture
+✓ All three machines declared in outputs
+✓ Helper function reduces duplication
+✓ Ready for Phase 2 module development
 
-**Rocket Raccoon**  
+**Rocket Raccoon**
 2026-06-03
