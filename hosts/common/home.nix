@@ -12,6 +12,7 @@
   home.packages = with pkgs; [
     yazi
     pre-commit
+    ripgrep
   ];
 
   # Write ~/.taskrc from sops secrets (secrets are defined per-host)
