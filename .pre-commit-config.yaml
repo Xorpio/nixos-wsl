@@ -16,6 +16,9 @@ repos:
       - id: trailing-whitespace
       # Fix end of file newline
       - id: end-of-file-fixer
+      # Normalize mixed/CRLF endings to LF
+      - id: mixed-line-ending
+        args: ['--fix=lf']
       # JSON validation
       - id: check-json
       # YAML validation (basic)
