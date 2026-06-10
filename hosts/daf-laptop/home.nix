@@ -41,8 +41,8 @@
     settings = {
       add_newline = true;
       format = ''
-        $username$hostname$directory$git_branch$git_status$nix_shell$cmd_duration
-        $character'';
+$username$hostname$directory$git_branch$git_status$nix_shell$cmd_duration
+$character'';
     };
   };
 }

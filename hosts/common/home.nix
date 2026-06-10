@@ -17,12 +17,8 @@
   # Override sops activation ordering: restart the user unit only after
   # Home Manager has reloaded user systemd units for this generation.
   home.activation.sops-nix = lib.mkForce (config.lib.dag.entryAfter ["reloadSystemd"] ''
-    if env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" \
-      PATH="${pkgs.systemd}/bin:$PATH" \
-      ${pkgs.systemd}/bin/systemctl --user list-unit-files | ${pkgs.gnugrep}/bin/grep -q '^sops-nix\.service'; then
-      env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" \
-        PATH="${pkgs.systemd}/bin:$PATH" \
-        ${pkgs.systemd}/bin/systemctl restart --user sops-nix.service
+    if env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" PATH="${pkgs.systemd}/bin:$PATH" ${pkgs.systemd}/bin/systemctl --user list-unit-files | ${pkgs.gnugrep}/bin/grep -q '^sops-nix\.service'; then
+      env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" PATH="${pkgs.systemd}/bin:$PATH" ${pkgs.systemd}/bin/systemctl restart --user sops-nix.service
     fi
   '');
 
