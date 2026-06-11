@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 {
   # ── Taskwarrior ───────────────────────────────────────────────────────────
   home.packages = with pkgs; [
@@ -33,8 +33,45 @@ sync_server_encryption_secret=$(cat "${config.sops.secrets."sync_server_encrypti
   echo "sync.server.url=$sync_server_url"
   echo "sync.server.client_id=$sync_server_client_id"
   echo "sync.encryption_secret=$sync_server_encryption_secret"
+
+  echo " uda.reviewed.type=date"
+  echo " uda.reviewed.label=Reviewed"
+  echo " report._reviewed.description=Tasksh review report.  Adjust the filter to your needs."
+  echo " report._reviewed.columns=uuid"
+  echo " report._reviewed.sort=reviewed+,modified+"
+  echo " report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )"
+  echo ""
+  echo " # New"
 } > "$HOME/.taskrc"
 
 chmod 600 "$HOME/.taskrc"
   '';
+
+  # setup recurring sync timer
+  systemd.user.services.task-sync = {
+     Unit = {
+       Description = "Taskwarrior sync";
+     };
+
+     Service = {
+       Type = "oneshot";
+       ExecStart = "${pkgs.taskwarrior3}/bin/task sync";
+     };
+   };
+
+   systemd.user.timers.task-sync = {
+     Unit = {
+       Description = "Periodic Taskwarrior sync";
+     };
+
+     Timer = {
+       OnBootSec = "2m";
+       OnUnitActiveSec = "5m";
+       Persistent = true;
+     };
+
+     Install = {
+       WantedBy = [ "timers.target" ];
+     };
+   };
 }

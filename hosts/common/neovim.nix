@@ -16,6 +16,7 @@
 
       options = {
         number = true;
+        relativenumber = false;
         tabstop = 2;
         shiftwidth = 2;
         expandtab = true;
@@ -34,6 +35,8 @@
         backup = false;
         updatetime = 250;
         mouse = "";
+        list = true;
+        listchars = "tab:→ ,space:·,trail:·,extends:>,precedes:<";
       };
     };
   };
