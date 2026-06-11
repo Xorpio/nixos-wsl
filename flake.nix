@@ -74,5 +74,30 @@
           ./hosts/desktop-pc/home.nix
         ];
       };
+
+      # centric: Clean setup without corporate cert
+      nixosConfigurations.centric = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          nixos-wsl.nixosModules.wsl
+          home-manager.nixosModules.home-manager
+          ./hosts/centric
+          {
+            home-manager.sharedModules = [
+              sops-nix.homeManagerModules.sops
+              nvf.homeManagerModules.default
+            ];
+          }
+        ];
+      };
+
+      homeConfigurations."niek@centric" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [
+          sops-nix.homeManagerModules.sops
+          nvf.homeManagerModules.default
+          ./hosts/centric/home.nix
+        ];
+      };
     };
 }

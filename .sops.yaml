@@ -13,5 +13,8 @@ creation_rules:
   - path_regex: 'secrets(/|\\)machines(/|\\)desktop-pc(/|\\).*'
     key_groups: *secret_keys
 
+  - path_regex: 'secrets(/|\\)machines(/|\\)centric(/|\\).*'
+    key_groups: *secret_keys
+
   - path_regex: 'secrets(/|\\)shared(/|\\).*'
     key_groups: *secret_keys

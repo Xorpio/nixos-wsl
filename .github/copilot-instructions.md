@@ -2,12 +2,13 @@
 
 ## Overview
 
-This repository contains multiple NixOS WSL configurations using **Flakes** and **Home Manager**, each tailored to a specific machine. Both prioritize simplicity and maintainability.
+This repository contains multiple NixOS WSL configurations using **Flakes** and **Home Manager**, each tailored to a specific machine. They prioritize simplicity and maintainability.
 
 ### Available Configurations
 
 - **`daf-laptop`**: Corporate machine with PACCAR certificate requirements
 - **`desktop-pc`**: Personal machine (no corporate dependencies)
+- **`centric`**: Clean machine (no corporate dependencies), username `niek`
 
 Both split system and home settings into separate files:
 - `hosts/{machine}/default.nix` — NixOS system config
@@ -23,6 +24,9 @@ sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#daf-laptop
 
 # For desktop-pc (clean)
 sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#desktop-pc
+
+# For centric (clean)
+sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#centric
 ```
 
 Shell aliases are defined in each machine's `home.nix`:
@@ -35,11 +39,13 @@ hm       # Same as rebuild (HM is system-integrated)
 
 ### Flake Structure
 
-`flake.nix` defines four output configurations:
+`flake.nix` defines six output configurations:
 - `nixosConfigurations.daf-laptop` — Full system (NixOS + Home Manager)
 - `homeConfigurations."daf@daf-laptop"` — Home Manager standalone
 - `nixosConfigurations.desktop-pc` — Full system (NixOS + Home Manager)
-- `homeConfigurations."daf@desktop-pc"` — Home Manager standalone
+- `homeConfigurations."xorpio@desktop-pc"` — Home Manager standalone
+- `nixosConfigurations.centric` — Full system (NixOS + Home Manager)
+- `homeConfigurations."niek@centric"` — Home Manager standalone
 
 ### Key Dependencies
 - **nixos-wsl**: Provides WSL-specific module (`nixos-wsl.nixosModules.wsl`)
@@ -50,7 +56,7 @@ All inputs follow `nixpkgs` for consistency.
 
 ### Home Manager Integration
 
-Home Manager is configured at the system level (`home-manager.useGlobalPkgs = true; home-manager.useUserPackages = true`) on both machines:
+Home Manager is configured at the system level (`home-manager.useGlobalPkgs = true; home-manager.useUserPackages = true`) on all machines:
 - Home Manager runs as part of system rebuild
 - No separate `home-manager` CLI tool needed
 - Faster rebuilds due to Nix caching
@@ -72,6 +78,10 @@ security.pki.certificateFiles = [ /etc/nixos/paccar-root.crt ];
 
 **No prerequisites** — can rebuild immediately on a fresh WSL instance.
 
+### centric (Clean)
+
+**No prerequisites** — can rebuild immediately on a fresh WSL instance.
+
 ## Key Conventions
 
 1. **Shell Configuration**: zsh is set as the default shell at system level (so it lands in `/etc/shells`) before Home Manager configures it.
@@ -85,12 +95,15 @@ security.pki.certificateFiles = [ /etc/nixos/paccar-root.crt ];
 ## File Structure
 
 ```
-flake.nix                           # Flake outputs (both machines)
+flake.nix                           # Flake outputs (all machines)
 hosts/
   daf-laptop/
     default.nix                     # NixOS system config (with corporate cert)
     home.nix                        # Home Manager config
   desktop-pc/
+    default.nix                     # NixOS system config (clean)
+    home.nix                        # Home Manager config
+  centric/
     default.nix                     # NixOS system config (clean)
     home.nix                        # Home Manager config
 nvim-config/
