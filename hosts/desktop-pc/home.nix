@@ -5,6 +5,11 @@
   home.username    = "xorpio";
   home.homeDirectory = "/home/xorpio";
 
+  my.git = {
+    userName = "Xorpio";
+    userEmail = "3060868+Xorpio@users.noreply.github.com";
+  };
+
   # ── SOPS secrets ──────────────────────────────────────────────────────────
   sops = {
     age.keyFile             = "/home/xorpio/.config/sops/age/keys.txt";
