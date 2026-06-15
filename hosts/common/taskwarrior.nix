@@ -16,35 +16,12 @@
     };
   };
 
-  home.activation.generateTaskrc = config.lib.dag.entryAfter ["writeBoundary" "sops-nix"] ''
-mkdir -p "$HOME/.config/task" 2>/dev/null || true
+  home.activation.generateTaskrc = config.lib.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
+export SYNC_SERVER_URL=$(cat "${config.sops.secrets.sync_server_url.path}")
+export SYNC_SERVER_CLIENT_ID=$(cat "${config.sops.secrets.sync_server_client_id.path}")
+export SYNC_SERVER_ENCRYPTION_SECRET=$(cat "${config.sops.secrets.sync_server_encryption_secret.path}")
 
-sync_server_url=$(cat "${config.sops.secrets."sync_server_url".path}")
-sync_server_client_id=$(cat "${config.sops.secrets."sync_server_client_id".path}")
-sync_server_encryption_secret=$(cat "${config.sops.secrets."sync_server_encryption_secret".path}")
-
-{
-  echo '# Taskwarrior configuration with synced settings'
-  echo 'dateformat=Y-M-D H:N'
-  echo 'dateformat.info=Y-M-D H:N:S'
-  echo 'dateformat.annotation=Y-M-D H:N'
-  echo
-  echo '# Sync configuration (populated from secrets)'
-  echo "sync.server.url=$sync_server_url"
-  echo "sync.server.client_id=$sync_server_client_id"
-  echo "sync.encryption_secret=$sync_server_encryption_secret"
-
-  echo "uda.reviewed.type=date"
-  echo "uda.reviewed.label=Reviewed"
-  echo "report._reviewed.description=Tasksh review report.  Adjust the filter to your needs."
-  echo "report._reviewed.columns=uuid"
-  echo "report._reviewed.sort=reviewed+,modified+"
-  echo "report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )"
-  echo ""
-  echo "news.version=3.4.1"
-  echo ""
-  echo " # New"
-} > "$HOME/.taskrc"
+${pkgs.envsubst}/bin/envsubst < "${./taskwarrior/taskrc.tpl}" > "$HOME/.taskrc"
 
 chmod 600 "$HOME/.taskrc"
   '';
