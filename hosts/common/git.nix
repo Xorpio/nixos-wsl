@@ -29,6 +29,10 @@ in
       enable = true;
       userName = cfg.userName;
       userEmail = cfg.userEmail;
+
+      extraConfig = {
+        merge.conflictstyle = "zdiff3";
+      };
     };
   };
 }
