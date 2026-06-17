@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     tasksh
     taskwarrior-tui
+    taskwarrior3
   ];
 
   home.activation.generateTaskrc = config.lib.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
