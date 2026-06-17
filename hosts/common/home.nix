@@ -13,6 +13,8 @@
     yazi
     pre-commit
     ripgrep
+    fzf
+    zoxide
   ];
 
   # Write ~/.taskrc from sops secrets (secrets are defined per-host)

@@ -6,16 +6,6 @@
     taskwarrior-tui
   ];
 
-  programs.taskwarrior = {
-    enable  = true;
-    package = pkgs.taskwarrior3;
-    config = {
-      dateformat              = "Y-M-D H:N";
-      "dateformat.info"       = "Y-M-D H:N:S";
-      "dateformat.annotation" = "Y-M-D H:N";
-    };
-  };
-
   home.activation.generateTaskrc = config.lib.dag.entryAfter [ "writeBoundary" "sops-nix" ] ''
 export SYNC_SERVER_URL=$(cat "${config.sops.secrets.sync_server_url.path}")
 export SYNC_SERVER_CLIENT_ID=$(cat "${config.sops.secrets.sync_server_client_id.path}")
