@@ -50,11 +50,35 @@
         ];
       };
 
-      # desktop-pc: Clean setup without corporate cert
-      nixosConfigurations.desktop-pc = nixpkgs.lib.nixosSystem {
+      # desktop-wsl: WSL setup without corporate cert
+      nixosConfigurations.desktop-wsl = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           nixos-wsl.nixosModules.wsl
+          home-manager.nixosModules.home-manager
+          ./hosts/desktop-wsl
+          {
+            home-manager.sharedModules = [
+              sops-nix.homeManagerModules.sops
+              nvf.homeManagerModules.default
+            ];
+          }
+        ];
+      };
+
+      homeConfigurations."xorpio@desktop-wsl" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [
+          sops-nix.homeManagerModules.sops
+          nvf.homeManagerModules.default
+          ./hosts/desktop-wsl/home.nix
+        ];
+      };
+
+      # desktop-pc: Bare metal NixOS with GNOME desktop
+      nixosConfigurations.desktop-pc = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
           home-manager.nixosModules.home-manager
           ./hosts/desktop-pc
           {

@@ -12,6 +12,9 @@ creation_rules:
   - path_regex: 'secrets(/|\\)machines(/|\\)daf-laptop(/|\\).*'
     key_groups: *secret_keys
 
+  - path_regex: 'secrets(/|\\)machines(/|\\)desktop-wsl(/|\\).*'
+    key_groups: *secret_keys
+
   - path_regex: 'secrets(/|\\)machines(/|\\)desktop-pc(/|\\).*'
     key_groups: *secret_keys
 

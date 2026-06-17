@@ -13,7 +13,7 @@
   # ── SOPS secrets ──────────────────────────────────────────────────────────
   sops = {
     age.keyFile             = "/home/xorpio/.config/sops/age/keys.txt";
-    defaultSopsFile         = ../../secrets/machines/desktop-pc/taskwarrior.yaml;
+    defaultSopsFile         = ../../secrets/machines/desktop-wsl/taskwarrior.yaml;
     defaultSopsFormat       = "yaml";
     defaultSymlinkPath      = "/run/user/1000/secrets";
     defaultSecretsMountPoint = "/run/user/1000/secrets.d";
@@ -31,8 +31,8 @@
 
   # ── Shell aliases ─────────────────────────────────────────────────────────
   home.shellAliases = {
-    rebuild = "sudo nixos-rebuild switch --flake ~/nixos-wsl#desktop-pc";
-    hm      = "sudo nixos-rebuild switch --flake ~/nixos-wsl#desktop-pc";
+    rebuild = "sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#desktop-wsl";
+    hm      = "sudo nixos-rebuild switch --impure --flake ~/nixos-wsl#desktop-wsl";
   };
 
   # ── Starship prompt ───────────────────────────────────────────────────────
