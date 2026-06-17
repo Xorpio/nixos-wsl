@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  wsl.enable = true;
-
   time.timeZone = "Europe/Amsterdam";
 
   # zsh must be in /etc/shells for it to be usable as a login shell

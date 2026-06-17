@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ../common/nixos.nix ];
+  imports = [ ../common/wsl.nix ];
 
   wsl.defaultUser = "xorpio";
   users.users.xorpio.shell = pkgs.zsh;
