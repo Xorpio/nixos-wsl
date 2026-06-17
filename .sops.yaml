@@ -7,6 +7,8 @@ key_groups:
         - age1trvuu4ltrpuqvuxpyam4sygp0wkd0hzwr3t7ucra0k8a24zc55uqthwgze
         # Centric wsl
         - age1t6ph5yahupddrcx4qcqg68lcn7r5v25q8yr2f66h49htnwk9n3tsammrgy
+        # Nixos desktop
+        - age1fyv4x8p6hxrvgrwn0k8paexcdymkehj2rka6h5jm7nckgfy3qdlq7p6ert
 
 creation_rules:
   - path_regex: 'secrets(/|\\)machines(/|\\)daf-laptop(/|\\).*'
