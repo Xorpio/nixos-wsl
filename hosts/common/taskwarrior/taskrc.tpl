@@ -19,4 +19,11 @@ report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +P
 
 news.version=3.4.1
 
+context.centric.read=+centric
+context.centric.write=+centric
+context.home.read=-daf and -centric
+context.daf.read=+daf
+context.daf.write=+daf
+context.work.read=+daf or +centric
+
 # New
