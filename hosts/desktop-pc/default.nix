@@ -15,10 +15,19 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
 
-  # GNOME desktop
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # Niri wayland compositor
+  programs.niri.enable = true;
+
+  # Login manager
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${config.programs.niri.package}/bin/niri-session";
+        user = "xorpio";
+      };
+    };
+  };
 
   # Keyboard layout
   services.xserver.xkb = {
@@ -39,6 +48,21 @@
   # Networking
   networking.hostName = "desktop-pc";
   networking.networkmanager.enable = true;
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
+  # Power management (required for Noctalia battery/power widgets)
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
+
+  # Polkit for privilege escalation in GUI apps
+  security.polkit.enable = true;
+
+  # Keyring
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
@@ -70,6 +94,9 @@
 
   environment.systemPackages = with pkgs; [
     claude-code
+    kitty
+    fuzzel
+    xwayland-satellite
   ];
 
   home-manager.useGlobalPkgs   = true;
