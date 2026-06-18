@@ -133,6 +133,10 @@
     }
   '';
 
+  home.packages = with pkgs; [
+    nautilus
+  ];
+
   # ── Noctalia shell ────────────────────────────────────────────────────────
   programs.noctalia-shell = {
     enable = true;
