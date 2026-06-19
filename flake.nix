@@ -42,6 +42,10 @@
       ./modules/features/neovim.nix
       ./modules/features/taskwarrior.nix
       ./modules/features/wsl.nix
+      ./modules/features/niri.nix
+      ./modules/features/audio.nix
+      ./modules/features/nvidia.nix
+      ./modules/features/desktop.nix
       ./modules/hosts/centric.nix
       ./modules/hosts/daf-laptop.nix
       ./modules/hosts/desktop-pc.nix
