@@ -1,0 +1,6 @@
+# Placeholder — replace this file with the actual PACCAR root CA certificate in PEM format.
+# Copy it from the corporate machine:
+#
+#   scp /etc/nixos/paccar-root.crt user@host:~/nixos-wsl/certs/paccar-root.crt
+#
+# Then commit certs/paccar-root.crt to the repository.
