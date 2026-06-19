@@ -46,6 +46,7 @@
       ./modules/features/audio.nix
       ./modules/features/nvidia.nix
       ./modules/features/desktop.nix
+      ./modules/features/vscode.nix
       ./modules/hosts/centric.nix
       ./modules/hosts/daf-laptop.nix
       ./modules/hosts/desktop-pc.nix

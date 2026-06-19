@@ -111,6 +111,10 @@
 
         // Monitor focus
         Mod+Shift+P { power-off-monitors; }
+
+        //View offset
+        Mod+Ctrl+Left { view-offset-left; }
+        Mod+Ctrl+Right { view-offset-right; }
       }
     '';
   };
