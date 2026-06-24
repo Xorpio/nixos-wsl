@@ -23,12 +23,10 @@
       }];
 
       programs.git = lib.mkIf (cfg.userName != null) {
-        enable   = true;
-        settings = {
-          user.name              = cfg.userName;
-          user.email             = cfg.userEmail;
-          merge.conflictstyle    = "zdiff3";
-        };
+        enable     = true;
+        userName   = cfg.userName;
+        userEmail  = cfg.userEmail;
+        extraConfig.merge.conflictstyle = "zdiff3";
       };
     };
   };
