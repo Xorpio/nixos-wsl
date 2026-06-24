@@ -41,6 +41,12 @@
       thunderbird
       prusa-slicer
       playerctl
+      spotify
+      k9s
+      flux9s
+      kubectl
+      btop
+      fluxcd
     ];
   };
 }
