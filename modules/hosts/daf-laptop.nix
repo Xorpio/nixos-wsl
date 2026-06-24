@@ -45,13 +45,14 @@ in
       inputs.home-manager.nixosModules.home-manager
       nixosModules.common
       nixosModules.wsl
+      nixosModules.vscode
       {
         wsl.defaultUser = "daf";
         users.users.daf.shell = inputs.nixpkgs.legacyPackages.x86_64-linux.zsh;
 
-        # PACCAR corporate CA — stored in the flake so evaluation stays pure.
-        # Replace certs/paccar-root.crt with the actual PEM certificate.
-        security.pki.certificateFiles = [ ../../certs/paccar-root.crt ];
+        # PACCAR corporate CA is managed out-of-repo on the machine.
+        security.pki.certificateFiles = [ /etc/nixos/paccar-root.crt ];
+        nix.settings.ssl-cert-file = "/etc/nixos/paccar-root.crt";
 
         home-manager.users.daf = { imports = hmModules; };
       }

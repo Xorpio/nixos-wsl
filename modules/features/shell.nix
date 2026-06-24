@@ -10,7 +10,7 @@
     system.stateVersion = "25.05";
 
     environment.systemPackages = with pkgs; [
-      git curl wget home-manager sops
+      git curl wget home-manager sops tmux
     ];
 
     home-manager = {
