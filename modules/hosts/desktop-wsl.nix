@@ -10,6 +10,7 @@ let
     homeModules.git
     homeModules.neovim
     homeModules.taskwarrior
+    homeModules.vscode
     {
       home.username      = "xorpio";
       home.homeDirectory = "/home/xorpio";
@@ -45,7 +46,6 @@ in
       inputs.home-manager.nixosModules.home-manager
       nixosModules.common
       nixosModules.wsl
-      nixosModules.vscode
       {
         wsl.defaultUser = "xorpio";
         users.users.xorpio.shell = inputs.nixpkgs.legacyPackages.x86_64-linux.zsh;
