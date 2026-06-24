@@ -47,6 +47,7 @@ in
       nixosModules.common
       nixosModules.wsl
       {
+        nixpkgs.config.allowUnfree = true;
         wsl.defaultUser = "xorpio";
         users.users.xorpio.shell = inputs.nixpkgs.legacyPackages.x86_64-linux.zsh;
         home-manager.users.xorpio = { imports = hmModules; };
@@ -55,7 +56,7 @@ in
   };
 
   flake.homeConfigurations."xorpio@desktop-wsl" = inputs.home-manager.lib.homeManagerConfiguration {
-    pkgs    = inputs.nixpkgs.legacyPackages.x86_64-linux;
+    pkgs    = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
     modules = hmModules;
   };
 }
