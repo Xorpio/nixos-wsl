@@ -13,7 +13,12 @@ let
     homeModules.taskwarrior
     homeModules.niri
     homeModules.desktop
+    homeModules.chats
     homeModules.vscode
+    # rquickshare is in nixpkgs stable but not yet in unstable
+    { home.packages = [ inputs.nixpkgs.legacyPackages.x86_64-linux.rquickshare ]; }
+    # noctalia package must be set explicitly; the HM module has no default
+    { programs.noctalia-shell.package = inputs.noctalia.packages.x86_64-linux.default; }
     {
       home.username      = "xorpio";
       home.homeDirectory = "/home/xorpio";
@@ -57,6 +62,8 @@ in
         boot.loader.systemd-boot.enable      = true;
         boot.loader.efi.canTouchEfiVariables = true;
 
+        nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ];
+
         users.users.xorpio = {
           isNormalUser = true;
           shell        = pkgs.zsh;
@@ -73,6 +80,7 @@ in
 
         environment.systemPackages = with pkgs; [
           claude-code
+          inputs.claude-desktop.packages.x86_64-linux.claude-desktop-fhs
           kitty
           fuzzel
           xwayland-satellite

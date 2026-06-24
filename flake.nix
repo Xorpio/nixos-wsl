@@ -30,6 +30,10 @@
       url    = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    claude-desktop = {
+      url    = "github:aaddrick/claude-desktop-debian";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -38,6 +42,7 @@
     imports = [
       ./modules/options.nix
       ./modules/features/shell.nix
+      ./modules/features/chats.nix
       ./modules/features/git.nix
       ./modules/features/neovim.nix
       ./modules/features/taskwarrior.nix

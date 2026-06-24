@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "claude-desktop": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781834454,
+        "narHash": "sha256-LrddwKe91gLJuHEOXUD+3H3z9v4roqffi9u9UNGUNh0=",
+        "owner": "aaddrick",
+        "repo": "claude-desktop-debian",
+        "rev": "d7e0611091762c0dcd6189755bc2d9c57ac35053",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aaddrick",
+        "repo": "claude-desktop-debian",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -51,6 +72,24 @@
       }
     },
     "flake-parts_2": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1778716662,
+        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_3": {
       "inputs": {
         "nixpkgs-lib": [
           "nvf",
@@ -203,6 +242,21 @@
         "type": "github"
       }
     },
+    "nixpkgs-lib_2": {
+      "locked": {
+        "lastModified": 1777168982,
+        "narHash": "sha256-GOkGPcboWE9BmGCRMLX3worL4EMnsnG8MyKmXNeYuhQ=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "f5901329dade4a6ea039af1433fb087bd9c1fe14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1781577229,
@@ -267,7 +321,7 @@
     "nvf": {
       "inputs": {
         "flake-compat": "flake-compat_2",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts_3",
         "mnw": "mnw",
         "ndg": "ndg",
         "nixpkgs": [
@@ -291,7 +345,8 @@
     },
     "root": {
       "inputs": {
-        "flake-parts": "flake-parts",
+        "claude-desktop": "claude-desktop",
+        "flake-parts": "flake-parts_2",
         "home-manager": "home-manager",
         "home-manager-unstable": "home-manager-unstable",
         "nixos-wsl": "nixos-wsl",

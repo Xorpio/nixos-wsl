@@ -1,6 +1,6 @@
 { ... }:
 {
-  my.nixosModules.desktop = { ... }: {
+  my.nixosModules.desktop = { pkgs, ... }: {
     hardware.bluetooth.enable = true;
     services.blueman.enable   = true;
 
@@ -26,6 +26,7 @@
       LC_TELEPHONE      = "nl_NL.UTF-8";
       LC_TIME           = "nl_NL.UTF-8";
     };
+
   };
 
   my.homeModules.desktop = { pkgs, ... }: {
@@ -33,6 +34,13 @@
 
     home.packages = with pkgs; [
       nautilus
+      dropbox
+      obsidian
+      slack
+      keepassxc
+      thunderbird
+      prusa-slicer
+      playerctl
     ];
   };
 }
