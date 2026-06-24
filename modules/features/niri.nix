@@ -51,6 +51,7 @@
         // Terminal and launcher
         Mod+Return { spawn "kitty"; }
         Alt+Space { spawn "fuzzel"; }
+        Mod+V { spawn "ringboard-egui" "toggle"; }
         Mod+Shift+E { quit; }
         Mod+Q { close-window; }
         Mod+Shift+Slash { show-hotkey-overlay; }

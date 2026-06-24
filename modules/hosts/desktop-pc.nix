@@ -12,6 +12,7 @@ let
     homeModules.neovim
     homeModules.taskwarrior
     homeModules.niri
+    homeModules.clipboard
     homeModules.desktop
     homeModules.chats
     homeModules.vscode

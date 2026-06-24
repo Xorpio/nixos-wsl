@@ -24,8 +24,13 @@
     programs.home-manager.enable = true;
 
     home.packages = with pkgs; [
-      yazi pre-commit ripgrep fzf zoxide
+      yazi pre-commit ripgrep fzf
     ];
+
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
 
     # Restart sops-nix only after home-manager has reloaded user systemd units,
     # avoiding a race between secret materialisation and unit activation order.
