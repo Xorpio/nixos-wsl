@@ -18,6 +18,7 @@ let
     homeModules.vscode
     # rquickshare is in nixpkgs stable but not yet in unstable
     { home.packages = [ inputs.nixpkgs.legacyPackages.x86_64-linux.rquickshare ]; }
+    { home.packages = [ inputs.paseo.packages.x86_64-linux.desktop ]; }
     # noctalia package must be set explicitly; the HM module has no default
     { programs.noctalia-shell.package = inputs.noctalia.packages.x86_64-linux.default; }
     {
@@ -59,6 +60,7 @@ in
       nixosModules.audio
       nixosModules.nvidia
       nixosModules.desktop
+      nixosModules.gaming
       ({ pkgs, ... }: {
         boot.loader.systemd-boot.enable      = true;
         boot.loader.efi.canTouchEfiVariables = true;
@@ -68,11 +70,18 @@ in
         users.users.xorpio = {
           isNormalUser = true;
           shell        = pkgs.zsh;
-          extraGroups  = [ "wheel" "networkmanager" "video" "audio" ];
+          extraGroups  = [ "wheel" "networkmanager" "video" "audio" "docker" ];
         };
 
         networking.hostName              = "desktop-pc";
         networking.networkmanager.enable = true;
+
+        virtualisation.docker.enable = true;
+
+        services.ollama = {
+          enable  = true;
+          package = pkgs.ollama-cuda;
+        };
 
         services.xserver.xkb = {
           layout  = "us";

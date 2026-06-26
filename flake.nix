@@ -34,6 +34,10 @@
       url    = "github:aaddrick/claude-desktop-debian";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    paseo = {
+      url = "github:getpaseo/paseo";
+    };
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -53,6 +57,7 @@
       ./modules/features/desktop.nix
       ./modules/features/clipboard.nix
       ./modules/features/vscode.nix
+      ./modules/features/gaming.nix
       ./modules/hosts/centric.nix
       ./modules/hosts/daf-laptop.nix
       ./modules/hosts/desktop-pc.nix

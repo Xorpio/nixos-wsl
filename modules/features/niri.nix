@@ -109,6 +109,7 @@
         Mod+F { maximize-column; }
         Mod+Shift+F { fullscreen-window; }
         Mod+C { center-column; }
+        Mod+Shift+C { center-output; }
         Mod+Minus { set-column-width "-10%"; }
         Mod+Equal { set-column-width "+10%"; }
 
