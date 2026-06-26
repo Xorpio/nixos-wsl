@@ -14,6 +14,7 @@ let
     homeModules.niri
     homeModules.clipboard
     homeModules.desktop
+    homeModules.input
     homeModules.chats
     homeModules.vscode
     # rquickshare is in nixpkgs stable but not yet in unstable
@@ -61,6 +62,7 @@ in
       nixosModules.nvidia
       nixosModules.desktop
       nixosModules.gaming
+      nixosModules.input
       ({ pkgs, ... }: {
         boot.loader.systemd-boot.enable      = true;
         boot.loader.efi.canTouchEfiVariables = true;
@@ -70,7 +72,7 @@ in
         users.users.xorpio = {
           isNormalUser = true;
           shell        = pkgs.zsh;
-          extraGroups  = [ "wheel" "networkmanager" "video" "audio" "docker" ];
+          extraGroups  = [ "wheel" "networkmanager" "video" "audio" "docker" "input" ];
         };
 
         networking.hostName              = "desktop-pc";
