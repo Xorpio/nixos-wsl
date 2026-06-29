@@ -58,6 +58,7 @@
       ./modules/features/clipboard.nix
       ./modules/features/vscode.nix
       ./modules/features/gaming.nix
+      ./modules/features/input.nix
       ./modules/hosts/centric.nix
       ./modules/hosts/daf-laptop.nix
       ./modules/hosts/desktop-pc.nix

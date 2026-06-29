@@ -1,16 +1,15 @@
 { ... }:
 {
-  my.nixosModules.input = { pkgs, ... }: {
+  my.nixosModules.input = { pkgs, config, ... }: {
     # Enable joystick/gamepad support
     hardware.uinput.enable = true;
 
-    # Add xboxdrv and related packages
-    services.xboxdrv.enable = true;
-
     # Add input-related packages
-    environment.systemPackages = with pkgs; [
+    boot.extraModulePackages = with config.boot.kernelPackages; [
       xpadneo
-      xboxdrv
+    ];
+
+    environment.systemPackages = with pkgs; [
       jstest-gtk
     ];
 
