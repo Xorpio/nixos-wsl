@@ -45,7 +45,6 @@ in
       inputs.home-manager.nixosModules.home-manager
       nixosModules.common
       nixosModules.wsl
-      nixosModules.vscode
       {
         wsl.defaultUser = "daf";
         users.users.daf.shell = inputs.nixpkgs.legacyPackages.x86_64-linux.zsh;
